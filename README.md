@@ -7,21 +7,14 @@
 [![License](https://img.shields.io/badge/license-Apache%202.0-green.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
 
----
+
 
 ***Built for Real-World LMIC Conditions***
 
 </div>
 
 
-## ✨ Core Features
 
-- 🚀 **Async-First**: Built on `aiohttp` with connection pooling, session reuse, and exponential backoff retry  
-- 📊 **First-Class Data Support**: One-click conversion to Pandas/Arrow for core endpoints, streaming support  
-- ⚡ **Rate Limiting & Retry**: Configurable rate limits, smart backoff, respects `Retry-After` headers  
-- 🌐 **LMIC Optimized**: Conservative defaults, resumable transfers, optimized for low-bandwidth environments  
-- 🛠️ **CLI Support**: Command-line tools for common operations  
-- 📈 **Observability**: Built-in metrics collection and structured logging  
 
 ---
 
