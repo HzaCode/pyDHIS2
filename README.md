@@ -9,7 +9,7 @@
 
 ---
 
-***A reproducible DHIS2 Python SDK for LMIC scenarios***
+***Built for Real-World LMIC Conditions***
 
 </div>
 
