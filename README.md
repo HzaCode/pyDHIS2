@@ -65,7 +65,4 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for det
 * 🐛 [Issues](https://github.com/pydhis2/pydhis2/issues)
 * 💬 [Discussions](https://github.com/pydhis2/pydhis2/discussions)
 
----
-
-<p align="center"><i>pydhis2 — Making DHIS2 data analysis simpler and more reliable</i></p>
 
