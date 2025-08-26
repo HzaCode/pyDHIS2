@@ -1,36 +1,38 @@
 
+
 <div align="center">
-  <img src="image.png" alt="pydhis2 logo" width="180"/>
+  <img src="image.png" alt="pydhis2 logo" width="220"/>
 
-[![PyPI](https://img.shields.io/pypi/v/pydhis2?style=flat-square)](https://pypi.org/project/pydhis2)
-[![Python](https://img.shields.io/badge/python-≥3.9-blue.svg?style=flat-square)](https://pypi.org/project/pydhis2/)
-[![License](https://img.shields.io/badge/license-Apache%202.0-green.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
-[![Black](https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square)](https://github.com/psf/black)
+  <p>
+    <a href="https://pypi.org/project/pydhis2"><img src="https://img.shields.io/pypi/v/pydhis2?style=for-the-badge" alt="PyPI"></a>
+    <a href="https://pypi.org/project/pydhis2/"><img src="https://img.shields.io/badge/python-≥3.9-blue.svg?style=for-the-badge" alt="Python"></a>
+    <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache%202.0-green.svg?style=for-the-badge" alt="License"></a>
+    <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge" alt="Black"></a>
+  </p>
 
-
-
-***Built for Real-World LMIC Conditions***
-
+  <p>
+    <strong>Built for Real-World LMIC Conditions</strong>
+  </p>
 </div>
-
-
-
 
 ---
 
 ## 🚀 Quick Start
 
-### Installation
+### 📦 Installation
 
 ```bash
 pip install pydhis2
-````
-Run directly:
+```
+
+Run the examples directly:
+
 ```bash
 python quick_start.py
 ```
 
-**Expected output:**
+**✨ Expected output:**
+
 ```
 ✅ Connection successful! DHIS2 version: 2.41.1
 
@@ -51,12 +53,12 @@ Data preview:
    Minimum: 39
 ```
 
-
 ```bash
 python quick_demo.py
 ```
 
-**Expected output:**
+**✨ Expected output:**
+
 ```
 ============================================================
 pydhis2 Quick Demo
@@ -107,30 +109,31 @@ python paper.py
 # Run the health data demo
 python real_health_data_demo.py
 ```
+
 ---
 
 ## 📊 Supported Endpoints
 
-| Endpoint       | Read | Write | DataFrame | Pagination | Streaming |
-| -------------- | ---- | ----- | --------- | ---------- | --------- |
-| Analytics      | ✅    | -     | ✅         | ✅          | ✅         |
-| DataValueSets  | ✅    | ✅     | ✅         | ✅          | ✅         |
-| Tracker Events | ✅    | ✅     | ✅         | ✅          | ✅         |
-| Metadata       | ✅    | ✅     | ✅         | -          | -         |
+| Endpoint | Read | Write | DataFrame | Pagination | Streaming |
+| :--- | :--: | :--: | :----: | :--: | :----: |
+| **Analytics** | ✅ | - | ✅ | ✅ | ✅ |
+| **DataValueSets** | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Tracker Events** | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Metadata** | ✅ | ✅ | ✅ | - | - |
 
 ---
 
 ## 📋 Compatibility
 
-* **Python**: ≥ 3.9
-* **DHIS2**: ≥ 2.36
-* **Platforms**: Windows, Linux, macOS
+*   **Python**: ≥ 3.9
+*   **DHIS2**: ≥ 2.36
+*   **Platforms**: Windows, Linux, macOS
 
 ---
 
 ## 📄 License
 
-Apache License 2.0 - see [LICENSE](LICENSE) file for details.
+**Apache License 2.0** - see the [LICENSE](LICENSE) file for details.
 
 ---
 
@@ -142,8 +145,6 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for det
 
 ## 📞 Support
 
-* 📖 [Documentation](https://pydhis2.readthedocs.io)
-* 🐛 [Issues](https://github.com/pydhis2/pydhis2/issues)
-* 💬 [Discussions](https://github.com/pydhis2/pydhis2/discussions)
-
-
+*   📖 **[Documentation](https://pydhis2.readthedocs.io)**
+*   🐛 **[Issues](https://github.com/pydhis2/pydhis2/issues)**
+*   💬 **[Discussions](https://github.com/pydhis2/pydhis2/discussions)**
