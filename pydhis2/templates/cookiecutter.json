@@ -1,0 +1,14 @@
+{
+    "project_name": "My DHIS2 Analysis Project",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+    "project_description": "A data analysis project using pydhis2",
+    "author_name": "Your Name",
+    "author_email": "your.email@example.com",
+    "dhis2_url": "https://play.dhis2.org/2.41",
+    "python_version": "3.9",
+    "use_notebooks": "yes",
+    "use_dqr": "yes",
+    "use_pipeline": "yes",
+    "license": ["Apache-2.0", "MIT", "BSD-3-Clause"],
+    "_extensions": ["jinja2_time.TimeExtension"]
+}

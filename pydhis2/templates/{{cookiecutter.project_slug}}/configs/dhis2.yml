@@ -1,0 +1,33 @@
+# DHIS2 client configuration
+
+# Connection settings
+connection:
+  base_url: "{{ cookiecutter.dhis2_url }}"
+  rps: 8                    # Requests per second
+  concurrency: 8            # Concurrent connections
+  timeouts: [10, 60, 120]   # Connect/read/total timeout (seconds)
+  compression: true         # Enable gzip compression
+
+# Retry configuration
+retry:
+  max_attempts: 5           # Maximum retry attempts
+  base_delay: 0.5           # Base delay (seconds)
+  max_delay: 60.0           # Maximum delay (seconds)
+  backoff_factor: 2.0       # Backoff factor
+  jitter: true              # Enable jitter
+  retry_on_status:          # HTTP status codes to retry on
+    - 429
+    - 500
+    - 502
+    - 503
+    - 504
+
+# Cache configuration
+cache:
+  enable: true              # Enable caching
+  ttl: 3600                 # Cache TTL (seconds)
+  directory: ".cache"       # Cache directory
+
+# Authentication configuration (environment variables are preferred)
+auth:
+  method: "basic"           # Auth method: basic/token/pat

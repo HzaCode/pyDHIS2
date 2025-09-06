@@ -1,0 +1,31 @@
+# Data Quality Review configuration
+
+# Completeness metrics configuration
+completeness:
+  thresholds:
+    reporting_completeness_pass: 0.90    # Reporting completeness pass threshold
+    reporting_completeness_warn: 0.70    # Reporting completeness warning threshold
+    data_element_completeness_pass: 0.90 # Data element completeness pass threshold
+    data_element_completeness_warn: 0.70 # Data element completeness warning threshold
+
+# Consistency metrics configuration
+consistency:
+  thresholds:
+    outlier_threshold: 3.0               # Outlier Z-score threshold
+    variance_threshold: 0.5              # Coefficient of variation threshold
+    trend_consistency_pass: 0.80         # Trend consistency pass threshold
+    trend_consistency_warn: 0.60         # Trend consistency warning threshold
+
+# Timeliness metrics configuration
+timeliness:
+  thresholds:
+    submission_timeliness_pass: 0.80     # Submission timeliness pass threshold
+    submission_timeliness_warn: 0.60     # Submission timeliness warning threshold
+    max_delay_days: 30                   # Maximum acceptable delay in days
+
+# Report configuration
+report:
+  title: "{{ cookiecutter.project_name }} - Data Quality Review Report"
+  include_charts: true                   # Include charts
+  include_details: true                  # Include details
+  language: "en-US"                      # Report language

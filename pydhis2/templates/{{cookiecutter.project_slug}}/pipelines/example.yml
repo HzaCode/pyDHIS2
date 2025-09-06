@@ -1,0 +1,56 @@
+# Example data analysis pipeline
+
+name: "{{ cookiecutter.project_name }} - Example Pipeline"
+description: "A complete pipeline for data pulling, quality assessment, and report generation"
+
+# Global configuration
+rps: 8              # Requests per second
+concurrency: 8      # Concurrency level
+
+# Pipeline steps
+steps:
+  # Step 1: Pull Analytics data
+  - type: analytics_pull
+    name: "Pull Immunization Analytics Data"
+    dx: "immunization.indicators"    # Please replace with actual indicator IDs
+    ou: "LEVEL-3"                   # Please replace with actual organization units
+    pe: "2023Q1:2023Q4"            # Time range
+    output: "analytics.parquet"
+    format: "parquet"
+
+  # Step 2: Pull Tracker events (optional)
+  # - type: tracker_pull
+  #   name: "Pull Immunization Tracker Events"
+  #   program: "program_id"          # Please replace with actual program ID
+  #   status: "COMPLETED"
+  #   since: "2023-01-01"
+  #   output: "tracker_events.parquet"
+  #   format: "parquet"
+
+  # Step 3: Data Quality Review
+  - type: dqr
+    name: "Analytics Data Quality Review"
+    input: "analytics.parquet"
+    html_output: "analytics_dqr_report.html"
+    json_output: "analytics_dqr_summary.json"
+    config:
+      completeness:
+        thresholds:
+          reporting_completeness_pass: 0.85
+          data_element_completeness_pass: 0.80
+      consistency:
+        thresholds:
+          outlier_threshold: 2.5
+      timeliness:
+        thresholds:
+          submission_timeliness_pass: 0.75
+
+# Pipeline metadata
+metadata:
+  author: "{{ cookiecutter.author_name }}"
+  version: "1.0.0"
+  created: "{% now 'utc', '%Y-%m-%d' %}"
+  tags:
+    - "analytics"
+    - "dqr"
+    - "immunization"

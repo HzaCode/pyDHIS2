@@ -1,0 +1,67 @@
+# WHO DQR-aligned quality configuration
+# Version: 1.0 | Scope: Desk review metrics for DHIS2 workloads
+
+metadata:
+  standard: "WHO Data Quality Review (DQR), Module 1/2 aligned"
+  notes: "Thresholds are recommended starting points; countries/projects may adjust per SOP"
+
+# Dimension 1: Completeness (separating "reporting completeness" and "indicator completeness"; and separating "missing/zero values")
+completeness:
+  reporting:
+    thresholds:
+      pass: 0.90  # Consistent with WHO DQ App common baseline
+      warn: 0.80  # Recommended ≥0.75; <0.80 commonly used as warning
+    levels: ["facility", "district"]  # Output two levels (can be modified as needed)
+  
+  indicator:
+    nonmissing:
+      thresholds:
+        pass: 0.90
+        warn: 0.80
+    nonzero:
+      thresholds:
+        pass: 0.90
+        warn: 0.80
+    rules:
+      treat_zero_as_valid: true  # "true zero" ≠ missing
+      expected_reports_source: "orgunit_period_matrix"  # Expected reports source definition
+
+# Dimension 2: Internal consistency (outliers/temporal consistency/related indicators consistency)
+consistency:
+  outliers:
+    zscore:
+      moderate: 2.0  # 2-3 SD only "suggest", no hard exclusion
+      extreme: 3.0   # ≥3 SD marked red, triggers review
+    modified_z:
+      enabled: true
+      extreme: 3.5   # Robust method threshold (more stable when highly volatile)
+    handle:
+      moderate: "flag_only"
+      extreme: "flag_and_review"
+  
+  trend:
+    method: "mean_of_prior_3yrs"  # or "forecast_from_prior_3yrs"
+    baseline_window_years: 3
+    unit_level_ratio_threshold: 0.33  # ±33%: current_year_value/3yr_baseline ∉ [0.67, 1.33] considered abnormal
+    aggregate_pass_units_within_threshold: 0.90  # ≥90% units within threshold → pass
+    aggregate_warn_units_within_threshold: 0.75  # 75-90% → warning, <75% → fail
+  
+  related_indicators:
+    enabled: true
+    pairs:
+      - name: "DTP1_vs_DTP3"
+        metric: "dropout_rate"
+        warn_threshold: 0.10  # ≥10% dropout warning
+        pass_threshold: 0.05  # ≤5% considered good
+      - name: "ANC1_vs_FirstVisit"
+        metric: "ratio"
+        warn_lower: 0.80     # Ratio deviation outside 0.8-1.2 → warning
+        warn_upper: 1.20
+
+# Dimension 3: Timeliness (note denominator = "reports received", not expected reports)
+timeliness:
+  thresholds:
+    timely_pass: 0.90
+  ci_method: "clopper_pearson"  # For confidence interval estimation of proportion metrics
+
+
