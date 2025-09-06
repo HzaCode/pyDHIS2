@@ -109,6 +109,55 @@ python paper.py
 # Run the health data demo
 python real_health_data_demo.py
 ```
+<details>
+<summary><strong>🚀 Reproducible Workflow: Using Project Templates</strong></summary>
+
+Beyond being a library, `pydhis2` promotes a standardized and reproducible workflow crucial for scientific research. To jumpstart your analysis, we provide a project template powered by [Cookiecutter](https://cookiecutter.readthedocs.io/).
+
+**Why use the template?**
+
+*   **Standardization**: Every project starts with the same clean, logical structure. No more guessing where configs or scripts are.
+*   **Rapid Start**: Generate a fully functional project skeleton with a single command.
+*   **Best Practices**: The template includes pre-configured settings for DHIS2 connection, data quality pipelines, and environment management.
+*   **Focus on Analysis**: Spend less time on boilerplate setup and more time on your research.
+
+### Usage
+
+1.  **Install Cookiecutter:**
+    ```bash
+    pip install cookiecutter
+    ```
+
+2.  **Generate your project:**
+    Run Cookiecutter and point it to the `pydhis2` template. It will ask you a few questions to personalize your new project.
+
+    ```bash
+    # Run from the root of the pydhis2 repository
+    cookiecutter pydhis2/templates
+    ```
+
+    You'll be prompted for details like your project name and author info:
+    ```
+    project_name [My DHIS-2 Analysis Project]: Malaria Analysis Malawi
+    project_slug [malaria_analysis_malawi]:
+    author_name [Your Name]: Dr. Evans
+    author_email [your.email@example.com]: evans@who.int
+    ```
+
+3.  **Get a complete, ready-to-use project structure:**
+    ```
+    malaria-analysis-malawi/
+    ├── configs/          # DHIS-2 & DQR configurations
+    ├── data/             # For raw and processed data
+    ├── pipelines/        # Your analysis pipeline definitions
+    ├── scripts/          # Runner scripts
+    ├── .env.example      # Environment variable template
+    └── README.md         # A dedicated README for your new project
+    ```
+
+Now you can `cd` into your new project directory and start your analysis immediately!
+
+</details>
 
 ---
 
