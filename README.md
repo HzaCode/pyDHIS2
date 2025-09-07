@@ -10,9 +10,11 @@
     <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge" alt="Black"></a>
   </p>
 
-  <p>
-    <strong>Modern Python SDK for DHIS2, designed for LMIC scenarios with reproducible workflows</strong>
-  </p>
+<p style="font-size:1.15rem; line-height:1.6;">
+  <strong>Modern Python SDK — <em>for</em> <span style="font-weight:900; text-transform:uppercase;">DHIS2</span> — designed for LMIC scenarios with reproducible workflows</strong>
+</p>
+
+
 </div>
 
 ---
