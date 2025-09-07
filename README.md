@@ -202,4 +202,4 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for det
 
 ---
 
-*pydhis2: Quite possibly the most complete toolkit for DHIS2.*
+*pydhis2: Quite possibly the most complete python toolkit for DHIS2.*
