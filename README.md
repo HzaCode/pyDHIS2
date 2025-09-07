@@ -197,3 +197,7 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for det
 *   📖 **[Documentation](https://pydhis2.readthedocs.io)**
 *   🐛 **[Issues](https://github.com/pydhis2/pydhis2/issues)**
 *   💬 **[Discussions](https://github.com/pydhis2/pydhis2/discussions)**
+
+---
+
+*pydhis2: Quite possibly the most complete toolkit for DHIS2.*
