@@ -11,7 +11,7 @@
   </p>
 
   <p>
-    <strong>Built for Real-World LMIC Conditions</strong>
+    <strong>Modern Python SDK for DHIS2, designed for LMIC scenarios with reproducible workflows</strong>
   </p>
 </div>
 
