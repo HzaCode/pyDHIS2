@@ -101,6 +101,50 @@ Uvn6LCg7dVU 202305      ImspTQPwCqd    416
    202305: █████████████████████████████████████████ 416
    202306: ███████████████████████████████ 313
 ```
+### Basic Usage in Your Project
+
+Create a file named `my_analysis.py` and add the following code:
+
+```python
+import asyncio
+from pydhis2 import AsyncDHIS2Client, DHIS2Config
+from pydhis2.core.types import AnalyticsQuery
+
+async def main():
+    # 1. Configure connection
+    config = DHIS2Config(
+        base_url="https://play.dhis2.org/stable-2-41-1",
+        auth=("admin", "district")
+    )
+  
+    async with AsyncDHIS2Client(config) as client:
+        # 2. Define query parameters
+        query = AnalyticsQuery(
+            dx=["Uvn6LCg7dVU"],  # Indicator: ANC 1st visit
+            ou="ImspTQPwCqd",    # Org Unit: Sierra Leone
+            pe="LAST_12_MONTHS"  # Period: Last 12 months
+        )
+
+        # 3. Fetch data and convert to a Pandas DataFrame
+        df = await client.analytics.to_pandas(query)
+
+        # 4. Analyze and display
+        print("✅ Data fetched successfully!")
+        print(f"Retrieved {len(df)} records.")
+        print("\n--- Data Preview ---")
+        print(df.head())
+        print("\n--- Data Statistics ---")
+        print(df['value'].describe())
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+Run your script from the terminal:
+
+```bash
+python my_analysis.py
+```
 
 **Or run the comprehensive examples:**
 
