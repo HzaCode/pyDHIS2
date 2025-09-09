@@ -4,17 +4,15 @@
   <img src="image.png" alt="pydhis2 logo" width="220"/>
 
   <p>
-    <a href="https://pypi.org/project/pydhis2"><img src="https://img.shields.io/pypi/v/pydhis2?style=for-the-badge" alt="PyPI"></a>
-    <a href="https://pypi.org/project/pydhis2/"><img src="https://img.shields.io/badge/python-≥3.9-blue.svg?style=for-the-badge" alt="Python"></a>
-    <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache%202.0-green.svg?style=for-the-badge" alt="License"></a>
-    <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge" alt="Black"></a>
+    <a href="https://pypi.org/project/pydhis2"><img src="https://img.shields.io/pypi/v/pydhis2" alt="PyPI"></a>
+    <a href="https://pypi.org/project/pydhis2/"><img src="https://img.shields.io/badge/python-≥3.9-blue" alt="Python"></a>
+    <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache%202.0-green" alt="License"></a>
+    <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000" alt="Black"></a>
   </p>
 
 <p style="font-size:1.15rem; line-height:1.6;">
   <strong>Modern Python SDK — <em>for</em> <span style="font-weight:900; text-transform:uppercase;">DHIS2</span> — designed for LMIC scenarios with reproducible workflows</strong>
 </p>
-
-
 </div>
 
 ---
