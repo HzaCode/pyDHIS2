@@ -18,8 +18,9 @@
 </div>
 
 ---
+## 🎉 `pydhis2` is officially released!
 
-## 🚀 Quick Start
+Get started in seconds.
 
 ### 📦 Installation
 
