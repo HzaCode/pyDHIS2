@@ -8,6 +8,7 @@
     <a href="https://pypi.org/project/pydhis2/"><img src="https://img.shields.io/badge/python-≥3.9-blue" alt="Python"></a>
     <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache%202.0-green" alt="License"></a>
     <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000" alt="Black"></a>
+   <a href="https://github.com/astral-sh/ruff"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff"></a>
   </p>
 
 <p style="font-size:1.15rem; line-height:1.6;">
