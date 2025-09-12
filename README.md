@@ -3,12 +3,33 @@
 <div align="center">
   <img src="image.png" alt="pydhis2 logo" width="220"/>
 
-  <p>
-    <a href="https://pypi.org/project/pydhis2"><img src="https://img.shields.io/pypi/v/pydhis2" alt="PyPI"></a>
-    <a href="https://pypi.org/project/pydhis2/"><img src="https://img.shields.io/badge/python-≥3.9-blue" alt="Python"></a>
-    <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/license-Apache%202.0-green" alt="License"></a>
-   <a href="https://github.com/astral-sh/ruff"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff"></a>
-  </p>
+<p align="center">
+  <!-- Pepy Weekly Downloads -->
+  <a href="https://pepy.tech/project/pydhis2">
+    <img src="https://static.pepy.tech/badge/pydhis2/week" alt="Weekly Downloads">
+  </a>
+  
+  <!-- PyPI Version -->
+  <a href="https://pypi.org/project/pydhis2">
+    <img src="https://img.shields.io/pypi/v/pydhis2" alt="PyPI">
+  </a>
+  
+  <!-- Python Version -->
+  <a href="https://pypi.org/project/pydhis2/">
+    <img src="https://img.shields.io/badge/python-≥3.9-blue" alt="Python">
+  </a>
+  
+  <!-- License -->
+  <a href="https://opensource.org/licenses/Apache-2.0">
+    <img src="https://img.shields.io/badge/license-Apache%202.0-green" alt="License">
+  </a>
+  
+  <!-- Ruff -->
+  <a href="https://github.com/astral-sh/ruff">
+    <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff">
+  </a>
+</p>
+
 
 <p style="font-size:1.15rem; line-height:1.6;">
   <strong>Modern Python SDK — <em>for</em> <span style="font-weight:900; text-transform:uppercase;">DHIS2</span> — designed for LMIC scenarios with reproducible workflows</strong>
