@@ -6,8 +6,10 @@
 <p align="center">
   <!-- Pepy Weekly Downloads -->
   <a href="https://pepy.tech/project/pydhis2">
-    <img src="https://static.pepy.tech/badge/pydhis2/week" alt="Weekly Downloads">
-  </a>
+    
+   [![Total Downloads](https://img.shields.io/pepy/dt/pydhis2?style=for-the-badge&color=306998&label=Downloads&logo=python)](https://pepy.tech/project/pydhis2)
+
+  
   
   <!-- PyPI Version -->
   <a href="https://pypi.org/project/pydhis2">
