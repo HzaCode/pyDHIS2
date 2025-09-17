@@ -34,9 +34,9 @@
 
 
 <p style="font-size:1.15rem; line-height:1.6;">
-  <strong>Modern Python SDK — <em>for</em> <span style="font-weight:900; text-transform:uppercase;">DHIS2</span> — designed for LMIC scenarios with reproducible workflows</strong>
+  <strong>Quite possibly the most complete python toolkit <em>for</em> DHIS2<br>— a modern SDK designed for reproducible workflows in LMIC scenarios.</strong>
 </p>
-</div>
+</div>`
 
 ---
 ## 🎉 `pydhis2` is officially released!
@@ -266,6 +266,4 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for det
 *   🐛 **[Issues](https://github.com/pydhis2/pydhis2/issues)**
 *   💬 **[Discussions](https://github.com/pydhis2/pydhis2/discussions)**
 
----
 
-*pydhis2: Quite possibly the most complete python toolkit for DHIS2.*
