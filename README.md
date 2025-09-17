@@ -57,33 +57,7 @@ pip install pydhis2
 Run the examples directly:
 
 ```bash
-python quick_start.py
-```
-
-**✨ Expected output:**
-
-```
-✅ Connection successful! DHIS2 version: 2.41.1
-
-📊 Retrieved 144 data records
-
-Data preview:
-   dataElement    period organisationUnit  value
-0  Uvn6LCg7dVU   202301      fdc6uOvgoji    189
-1  Uvn6LCg7dVU   202301      ImspTQPwCqd   3503
-2  Uvn6LCg7dVU   202301      O6uvpzGd5pu    436
-3  Uvn6LCg7dVU   202301      kJq2mPyFEHo    560
-4  Uvn6LCg7dVU   202301      Vth0fbpFcsO    243
-
-📈 Data statistics:
-   Total: 59,326
-   Average: 412.0
-   Maximum: 3,503
-   Minimum: 39
-```
-
-```bash
-python quick_demo.py
+py quick_demo.py
 ```
 
 **✨ Expected output:**
@@ -170,18 +144,69 @@ if __name__ == "__main__":
 Run your script from the terminal:
 
 ```bash
-python my_analysis.py
+py my_analysis.py
 ```
 
-**Or run the comprehensive examples:**
+### 📚 Available Example Scripts
+
+The repository includes several example scripts demonstrating different use cases:
+
+| Script | Description | Usage |
+|--------|-------------|-------|
+| `quick_demo.py` | Basic functionality demo with connection testing and data analysis | `py quick_demo.py` |
+| `demo_test.py` | Comprehensive API testing with data quality reports (HTML output) | `py demo_test.py` |
+| `real_health_data_demo.py` | Health data analysis with quality metrics and insights | `py real_health_data_demo.py` |
+| `paper.py` | Research paper material generation with visualizations | `py paper.py` |
+| `my_analysis.py` | Template for custom analysis projects | `py my_analysis.py` |
+
+**Run comprehensive examples:**
 
 ```bash
-# Run the paper experiment script
-python paper.py
+# Basic demo with connection testing
+py quick_demo.py
 
-# Run the health data demo
-python real_health_data_demo.py
+# Full API testing with DQR report
+py demo_test.py
+
+# Health data analysis demo  
+py real_health_data_demo.py
+
+# Research paper material generation
+py paper.py
 ```
+
+**Expected outputs:**
+- CSV data files with analysis results
+- HTML quality reports (`dqr_demo_report.html`)
+- Statistical summaries in JSON format
+- Visualization charts (PNG format)
+- Markdown reports for documentation
+
+### 🖥️ Command Line Interface
+
+`pydhis2` also provides a powerful CLI for common operations:
+
+```bash
+# Check version
+pydhis2 version
+
+# Configure connection
+pydhis2 login --url "https://play.dhis2.org/dev" --username "admin"
+
+# Pull analytics data
+pydhis2 analytics pull --dx "Uvn6LCg7dVU" --ou "ImspTQPwCqd" --pe "LAST_12_MONTHS" --out analytics.parquet
+
+# Pull tracker events  
+pydhis2 tracker pull --program "program_id" --status COMPLETED --out events.parquet
+
+# Run data quality review
+pydhis2 dqr run --input analytics.parquet --html dqr_report.html --json dqr_summary.json
+
+# Execute pipelines
+pydhis2 pipeline run --recipe pipeline_config.yml
+```
+
+For detailed CLI usage, run `pydhis2 --help` or check individual command help with `pydhis2 <command> --help`.
 <details>
 <summary><strong>🚀 Reproducible Workflow: Using Project Templates</strong></summary>
 
@@ -270,5 +295,3 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for det
 *   📖 **[Documentation](https://pydhis2.readthedocs.io)**
 *   🐛 **[Issues](https://github.com/pydhis2/pydhis2/issues)**
 *   💬 **[Discussions](https://github.com/pydhis2/pydhis2/discussions)**
-
-
