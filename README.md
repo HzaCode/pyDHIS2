@@ -30,13 +30,18 @@
   <a href="https://github.com/astral-sh/ruff">
     <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff">
   </a>
+  
+  <!-- In Submission -->
+  <a href="#">
+    <img src="https://img.shields.io/badge/status-in%20submission-lightgrey" alt="in submission">
+  </a>
 </p>
 
 
 <p style="font-size:1.15rem; line-height:1.6;">
   <strong>Quite possibly the most complete python toolkit <em>for</em> DHIS2<br>— a modern SDK designed for reproducible workflows in LMIC scenarios.</strong>
 </p>
-</div>`
+</div>
 
 ---
 ## 🎉 `pydhis2` is officially released!
