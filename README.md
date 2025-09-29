@@ -4,11 +4,6 @@
   <img src="image.png" alt="pydhis2 logo" width="220"/>
 
 <p align="center">
-  <!-- Test Status -->
-  <a href="https://github.com/pydhis2/pydhis2_new/actions/workflows/ci.yml">
-    <img src="https://github.com/pydhis2/pydhis2_new/actions/workflows/ci.yml/badge.svg" alt="CI">
-  </a>
-
   <!-- Pepy Weekly Downloads -->
   <a href="https://pepy.tech/project/pydhis2">
     
@@ -24,6 +19,11 @@
   <!-- Python Version -->
   <a href="https://pypi.org/project/pydhis2/">
     <img src="https://img.shields.io/badge/python-≥3.9-blue" alt="Python">
+  </a>
+  
+  <!-- Test Status -->
+  <a href="https://github.com/pydhis2/pydhis2_new/actions/workflows/ci.yml">
+    <img src="https://github.com/pydhis2/pydhis2_new/actions/workflows/ci.yml/badge.svg" alt="CI">
   </a>
   
   <!-- License -->
