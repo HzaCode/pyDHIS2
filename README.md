@@ -4,6 +4,11 @@
   <img src="image.png" alt="pydhis2 logo" width="220"/>
 
 <p align="center">
+  <!-- Test Status -->
+  <a href="https://github.com/pydhis2/pydhis2_new/actions/workflows/ci.yml">
+    <img src="https://github.com/pydhis2/pydhis2_new/actions/workflows/ci.yml/badge.svg" alt="CI">
+  </a>
+
   <!-- Pepy Weekly Downloads -->
   <a href="https://pepy.tech/project/pydhis2">
     
@@ -46,7 +51,8 @@
 ---
 ## 🎉 `pydhis2` is officially released!
 
-### 🚀 Getting Started
+<details>
+<summary><strong>🚀 Getting Started</strong></summary>
 
 **1. Installation**
 
@@ -83,8 +89,10 @@ Retrieved 1 data records
 ...
 Demo completed successfully!
 ```
+</details>
 
-### 📖 Basic Usage
+<details>
+<summary><strong>📖 Basic Usage</strong></summary>
 
 Here's how to use `pydhis2` in your own script. Create a file named `examples/my_analysis.py`:
 
@@ -133,8 +141,10 @@ Run your script from the terminal:
 ```bash
 py examples/my_analysis.py
 ```
+</details>
 
-### 🔧 DHIS2 Server Configuration
+<details>
+<summary><strong>🔧 DHIS2 Server Configuration</strong></summary>
 
 The examples use public DHIS2 demo servers by default. To connect to your own server, you can configure it in one of the following ways:
 
@@ -160,8 +170,10 @@ config = DHIS2Config(
 ```bash
 py -m pydhis2 config --url "https://your-dhis2-server.com" --username "your_username"
 ```
+</details>
 
-### 📚 More Examples
+<details>
+<summary><strong>📚 More Examples</strong></summary>
 
 The repository includes several scripts demonstrating different use cases:
 
@@ -181,8 +193,10 @@ py -m pydhis2 demo health
 # Or run the Python script directly
 py examples/real_health_data_demo.py
 ```
+</details>
 
-### 🖥️ Command Line Interface
+<details>
+<summary><strong>🖥️ Command Line Interface</strong></summary>
 
 `pydhis2` provides a powerful CLI for common data operations.
 
@@ -199,6 +213,7 @@ py -m pydhis2 dqr analyze --input analytics.parquet --html dqr_report.html --jso
 ```
 
 For detailed CLI usage, run `py -m pydhis2 --help`.
+</details>
 
 <details>
 <summary><strong>🚀 Reproducible Workflow: Using Project Templates</strong></summary>
@@ -279,7 +294,7 @@ Now you can `cd` into your new project directory and start your analysis immedia
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details. Also, have a look at our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ---
 
