@@ -22,8 +22,8 @@
   </a>
   
   <!-- Test Status -->
-  <a href="https://github.com/pydhis2/pydhis2_new/actions/workflows/ci.yml">
-    <img src="https://github.com/pydhis2/pydhis2_new/actions/workflows/ci.yml/badge.svg" alt="CI">
+  <a href="https://github.com/HzaCode/pydhis2/actions/workflows/ci.yml">
+    <img src="https://github.com/HzaCode/pydhis2/actions/workflows/ci.yml/badge.svg" alt="CI">
   </a>
   
   <!-- License -->
