@@ -4,7 +4,6 @@ import random
 import uuid
 from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
-import pandas as pd
 
 
 class TestDataGenerator:
@@ -224,42 +223,3 @@ class TestDataGenerator:
             "conflicts": conflicts
         }
     
-    def configure_endpoint(
-        self,
-        method: str,
-        path: str,
-        response_data: Dict[str, Any],
-        status: int = 200,
-        delay: float = 0.0,
-        fail_count: int = 0
-    ) -> None:
-        """Configure a specific endpoint response"""
-        full_path = f"/{method.lower()}{path}"
-        self.responses[full_path] = MockResponse(
-            status=status,
-            data=response_data,
-            delay=delay,
-            fail_count=fail_count
-        )
-    
-    async def start(self) -> str:
-        """Start the mock server and return base URL"""
-        self.runner = web.AppRunner(self.app)
-        await self.runner.setup()
-        
-        self.site = web.TCPSite(self.runner, self.host, self.port)
-        await self.site.start()
-        
-        base_url = f"http://{self.host}:{self.port}"
-        return base_url
-    
-    async def stop(self) -> None:
-        """Stop the mock server"""
-        if self.site:
-            await self.site.stop()
-        if self.runner:
-            await self.runner.cleanup()
-    
-    def get_base_url(self) -> str:
-        """Get the server base URL"""
-        return f"http://{self.host}:{self.port}"

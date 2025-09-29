@@ -8,17 +8,15 @@ from urllib.parse import urljoin, urlparse
 import logging
 
 import aiohttp
-from pydantic import BaseModel
 
-from pydhis2.core.types import DHIS2Config, ExportFormat
+from pydhis2.core.types import DHIS2Config
 from pydhis2.core.errors import (
     DHIS2HTTPError,
-    TimeoutError as DHIS2TimeoutError,
     AuthenticationError,
     AllPagesFetchError,  # Added
     format_dhis2_error,
 )
-from pydhis2.core.auth import AuthManager, create_auth_provider
+from pydhis2.core.auth import AuthManager
 from pydhis2.core.rate_limit import GlobalRateLimiter
 from pydhis2.core.retry import RetryManager, RetryConfig
 from pydhis2.core.cache import HTTPCache, CachedSession
@@ -184,12 +182,19 @@ class AsyncDHIS2Client:
         timeout = aiohttp.ClientTimeout(total=self.config.timeout)
         
         # Connector configuration
-        connector = aiohttp.TCPConnector(
-            limit=self.config.concurrency,
-            limit_per_host=self.config.concurrency,
-            keepalive_timeout=30,
-            enable_cleanup_closed=True,
-        )
+        import sys
+        connector_kwargs = {
+            "limit": self.config.concurrency,
+            "limit_per_host": self.config.concurrency,
+            "keepalive_timeout": 30,
+            "enable_cleanup_closed": True,
+        }
+        
+        # Fix for Windows aiodns issue
+        if sys.platform == 'win32':
+            connector_kwargs["use_dns_cache"] = False
+        
+        connector = aiohttp.TCPConnector(**connector_kwargs)
         
         # Session creation
         self._session = aiohttp.ClientSession(
@@ -256,6 +261,10 @@ class AsyncDHIS2Client:
         """Build full URL"""
         if endpoint.startswith('http'):
             return endpoint
+        
+        # Handle empty endpoint
+        if not endpoint:
+            return self.base_url.rstrip('/') + '/'
         
         # Ensure endpoint starts with /
         if not endpoint.startswith('/'):

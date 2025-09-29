@@ -1,6 +1,6 @@
 """Schema manager - Handles data structure differences across DHIS2 versions"""
 
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 from dataclasses import dataclass, field
 from enum import Enum
 import logging
@@ -391,7 +391,7 @@ class SchemaManager:
             try:
                 pd.to_datetime(value)
                 return True
-            except:
+            except Exception:
                 return False
         else:
             return True  # Unknown types pass validation

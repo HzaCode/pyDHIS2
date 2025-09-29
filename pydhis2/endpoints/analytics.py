@@ -1,13 +1,11 @@
 """Analytics endpoint - Analysis data queries and DataFrame conversion"""
 
-from typing import Any, Dict, List, Optional, Union, AsyncIterator
-import asyncio
-from urllib.parse import urlencode
+from typing import Any, Dict, Optional, AsyncIterator
 
 import pandas as pd
 import pyarrow as pa
 
-from pydhis2.core.types import AnalyticsQuery, DataFrameFormat, ExportFormat
+from pydhis2.core.types import AnalyticsQuery, ExportFormat
 from pydhis2.io.to_pandas import AnalyticsDataFrameConverter
 from pydhis2.io.arrow import ArrowConverter
 

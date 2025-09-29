@@ -155,7 +155,18 @@ class ValidationError(DHIS2Error):
 
 class TimeoutError(DHIS2HTTPError):
     """Raised on request timeout"""
-    pass
+    
+    def __init__(
+        self,
+        timeout_type: str,
+        timeout_value: float,
+        url: str = "unknown",
+        status: int = 408
+    ):
+        self.timeout_type = timeout_type
+        self.timeout_value = timeout_value
+        message = f"{timeout_type} timeout after {timeout_value} seconds"
+        super().__init__(status, url, message)
 
 
 class DataFormatError(DHIS2Error):

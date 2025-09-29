@@ -24,7 +24,7 @@ class ArrowConverter:
             else:
                 table = pa.Table.from_pandas(df, preserve_index=False)
             return table
-        except Exception as e:
+        except Exception:
             # Fallback to basic conversion
             return pa.Table.from_pandas(df, preserve_index=False)
     
@@ -180,7 +180,6 @@ class ArrowConverter:
         
         for i in range(table.num_columns):
             column = table.column(i)
-            column_name = table.schema.field(i).name
             
             # Apply dictionary encoding to string columns
             if pa.types.is_string(column.type):

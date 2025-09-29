@@ -141,13 +141,136 @@ def dqr_analyze(
         console.print(f"📄 Would generate JSON summary: {json_output}")
 
 
+# Demo commands
+demo_app = typer.Typer(help="Run demo scripts")
+app.add_typer(demo_app, name="demo")
+
+
+@demo_app.command("quick")
+def demo_quick():
+    """Run quick demo - basic functionality test"""
+    import subprocess
+    import sys
+    from pathlib import Path
+    
+    # Find the quick_demo.py script
+    script_path = Path.cwd() / "examples" / "quick_demo.py"
+    if not script_path.exists():
+        console.print("examples/quick_demo.py not found in current directory")
+        console.print("Make sure you're in the pydhis2 project directory")
+        return
+    
+    console.print("Running pydhis2 Quick Demo...")
+    try:
+        result = subprocess.run([sys.executable, str(script_path)], 
+                              capture_output=False, text=True)
+        if result.returncode != 0:
+            console.print("Demo failed")
+    except Exception as e:
+        console.print(f"Error running demo: {e}")
+
+
+@demo_app.command("test")
+def demo_test():
+    """Run comprehensive API test demo"""
+    import subprocess
+    import sys
+    from pathlib import Path
+    
+    script_path = Path.cwd() / "examples" / "demo_test.py"
+    if not script_path.exists():
+        console.print("examples/demo_test.py not found in current directory")
+        console.print("Make sure you're in the pydhis2 project directory")
+        return
+    
+    console.print("Running pydhis2 Comprehensive Test Demo...")
+    try:
+        result = subprocess.run([sys.executable, str(script_path)], 
+                              capture_output=False, text=True)
+        if result.returncode != 0:
+            console.print("Test demo failed")
+    except Exception as e:
+        console.print(f"Error running test demo: {e}")
+
+
+@demo_app.command("health")
+def demo_health():
+    """Run health data analysis demo"""
+    import subprocess
+    import sys
+    from pathlib import Path
+    
+    script_path = Path.cwd() / "examples" / "real_health_data_demo.py"
+    if not script_path.exists():
+        console.print("examples/real_health_data_demo.py not found in current directory")
+        console.print("Make sure you're in the pydhis2 project directory")
+        return
+    
+    console.print("Running pydhis2 Health Data Analysis Demo...")
+    try:
+        result = subprocess.run([sys.executable, str(script_path)], 
+                              capture_output=False, text=True)
+        if result.returncode != 0:
+            console.print("Health demo failed")
+    except Exception as e:
+        console.print(f"Error running health demo: {e}")
+
+
+@demo_app.command("analysis")
+def demo_analysis():
+    """Run custom analysis template"""
+    import subprocess
+    import sys
+    from pathlib import Path
+    
+    script_path = Path.cwd() / "examples" / "my_analysis.py"
+    if not script_path.exists():
+        console.print("examples/my_analysis.py not found in current directory")
+        console.print("Make sure you're in the pydhis2 project directory")
+        return
+    
+    console.print("Running pydhis2 Custom Analysis Demo...")
+    try:
+        result = subprocess.run([sys.executable, str(script_path)], 
+                              capture_output=False, text=True)
+        if result.returncode != 0:
+            console.print("Analysis demo failed")
+    except Exception as e:
+        console.print(f"Error running analysis demo: {e}")
+
+
+@demo_app.command("list")
+def demo_list():
+    """List available demo scripts"""
+    console.print("Available pydhis2 Demo Scripts:")
+    console.print("")
+    console.print("[bold]pydhis2 demo quick[/bold]")
+    console.print("   Basic functionality demo with connection testing")
+    console.print("")
+    console.print("[bold]pydhis2 demo test[/bold]")
+    console.print("   Comprehensive API testing with HTML reports")
+    console.print("")
+    console.print("[bold]pydhis2 demo health[/bold]")
+    console.print("   Health data analysis with quality metrics")
+    console.print("")
+    console.print("[bold]pydhis2 demo analysis[/bold]")
+    console.print("   Custom analysis template (customizable)")
+    console.print("")
+    console.print("[dim]Tip: You can also run scripts directly with:[/dim]")
+    console.print("   [dim]py examples/quick_demo.py[/dim]")
+    console.print("   [dim]py examples/demo_test.py[/dim]")
+    console.print("   [dim]py examples/real_health_data_demo.py[/dim]")
+    console.print("   [dim]py examples/my_analysis.py[/dim]")
+
+
 @app.command("status")
 def status():
     """Show system status"""
-    console.print("📊 pydhis2 Status:")
-    console.print("✅ Core modules loaded")
-    console.print("🚧 CLI implementation in progress")
-    console.print("📚 See documentation: https://github.com/pydhis2/pydhis2")
+    console.print("pydhis2 Status:")
+    console.print("Core modules loaded")
+    console.print("Demo scripts available")
+    console.print("CLI implementation in progress")
+    console.print("See documentation: https://github.com/pydhis2/pydhis2")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,5 @@
 """Tests for the errors module"""
 
-import pytest
 from unittest.mock import MagicMock
 
 from pydhis2.core.errors import (

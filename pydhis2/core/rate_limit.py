@@ -2,8 +2,8 @@
 
 import asyncio
 import time
-from typing import Dict, Optional, Tuple
-from collections import defaultdict, deque
+from typing import Dict, Optional
+from collections import deque
 
 from aiolimiter import AsyncLimiter
 

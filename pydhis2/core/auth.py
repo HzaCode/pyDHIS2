@@ -1,11 +1,10 @@
 """Authentication module - Support for Basic, Token, PAT and other auth methods"""
 
 import base64
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Dict, Optional, Tuple, Union
 from abc import ABC, abstractmethod
 
 import aiohttp
-from pydantic import BaseModel
 
 from pydhis2.core.errors import AuthenticationError
 from pydhis2.core.types import AuthMethod

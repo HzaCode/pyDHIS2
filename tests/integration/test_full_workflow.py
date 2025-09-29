@@ -1,15 +1,13 @@
 """Integration tests for full DHIS2 workflows"""
 
 import pytest
-import asyncio
 import pandas as pd
 from pydhis2.core.types import DHIS2Config, AnalyticsQuery
 from pydhis2.core.client import AsyncDHIS2Client
 from pydhis2.testing import (
     MockDHIS2Server,
     TestDataGenerator,
-    BenchmarkRunner,
-    NetworkSimulator
+    BenchmarkRunner
 )
 from pydhis2.dqr.metrics import CompletenessMetrics, ConsistencyMetrics
 

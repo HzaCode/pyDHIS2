@@ -2,9 +2,9 @@
 
 import asyncio
 import random
-import time
-from typing import Optional, Callable, Any, List, Dict
+from typing import Optional, Any, List, Dict
 from dataclasses import dataclass
+from datetime import datetime, timedelta
 import aiohttp
 import pandas as pd
 
@@ -122,7 +122,7 @@ class SimulatedSession:
             raise asyncio.TimeoutError("Simulated network timeout")
         
         # Make the actual request
-        start_time = time.time()
+        # start_time = time.time()  # For future latency simulation
         response = await self.session.request(method, url, **kwargs)
         
         # Simulate bandwidth limitations based on response size

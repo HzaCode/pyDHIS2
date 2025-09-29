@@ -46,167 +46,160 @@
 ---
 ## 🎉 `pydhis2` is officially released!
 
-Get started in seconds.
+### 🚀 Getting Started
 
-### 📦 Installation
+**1. Installation**
 
 ```bash
 pip install pydhis2
 ```
 
-Run the examples directly:
+**2. Run the Quick Demo**
+
+Use the CLI to run a quick demo that connects to a live DHIS2 server and fetches some data. This is the best way to verify your installation.
 
 ```bash
-py quick_demo.py
+# Check installation
+py -m pydhis2 version
+
+# Run quick demo
+py -m pydhis2 demo quick
 ```
 
-**✨ Expected output:**
+You should see output confirming a successful connection and data retrieval:
 
 ```
 ============================================================
 pydhis2 Quick Demo
 ============================================================
-
-1. Testing DHIS2 connection...
-✅ Connection successful!
-   System: DHIS2 Demo
-   Version: 2.41.1
-   URL: https://play.dhis2.org
+=== Testing: https://demos.dhis2.org/dq ===
+   Found working API endpoint!
+   System: Data Quality
+   Version: 2.38.4.3
+Found working server: https://demos.dhis2.org/dq
 
 2. Querying Analytics data...
-✅ Retrieved 12 data records
-
-3. Data preview:
-------------------------------------------------------------
-dataElement period organisationUnit  value
-Uvn6LCg7dVU 202301      ImspTQPwCqd    335
-Uvn6LCg7dVU 202302      ImspTQPwCqd    298
-Uvn6LCg7dVU 202303      ImspTQPwCqd    343
-Uvn6LCg7dVU 202304      ImspTQPwCqd    365
-Uvn6LCg7dVU 202305      ImspTQPwCqd    416
-
-4. Data statistics:
-------------------------------------------------------------
-   Total records: 12
-   Sum of values: 3,789
-   Average: 315.8
-   Maximum: 498
-   Minimum: 105
-
-5. Monthly trends:
-------------------------------------------------------------
-   202301: █████████████████████████████████ 335
-   202302: █████████████████████████████ 298
-   202303: ██████████████████████████████████ 343
-   202304: ████████████████████████████████████ 365
-   202305: █████████████████████████████████████████ 416
-   202306: ███████████████████████████████ 313
+Retrieved 1 data records
+...
+Demo completed successfully!
 ```
-### Basic Usage in Your Project
 
-Create a file named `my_analysis.py` and add the following code:
+### 📖 Basic Usage
+
+Here's how to use `pydhis2` in your own script. Create a file named `examples/my_analysis.py`:
 
 ```python
 import asyncio
-from pydhis2 import AsyncDHIS2Client, DHIS2Config
+import sys
+from pydhis2 import get_client, DHIS2Config
 from pydhis2.core.types import AnalyticsQuery
 
+# Get client classes
+AsyncDHIS2Client, SyncDHIS2Client = get_client()
+
 async def main():
-    # 1. Configure connection
+    # 1. Configure connection (using a working demo server)
     config = DHIS2Config(
-        base_url="https://play.dhis2.org/stable-2-41-1",
-        auth=("admin", "district")
+        base_url="https://demos.dhis2.org/dq",
+        auth=("demo", "District1#")
     )
   
     async with AsyncDHIS2Client(config) as client:
         # 2. Define query parameters
         query = AnalyticsQuery(
-            dx=["Uvn6LCg7dVU"],  # Indicator: ANC 1st visit
-            ou="ImspTQPwCqd",    # Org Unit: Sierra Leone
-            pe="LAST_12_MONTHS"  # Period: Last 12 months
+            dx=["b6mCG9sphIT"],   # Data element: ANC 1 Outlier Threshold
+            ou="qzGX4XdWufs",    # Org unit: A-1 District Hospital
+            pe="2023"            # Period: Year 2023
         )
 
         # 3. Fetch data and convert to a Pandas DataFrame
         df = await client.analytics.to_pandas(query)
 
         # 4. Analyze and display
-        print("✅ Data fetched successfully!")
+        print("Data fetched successfully!")
         print(f"Retrieved {len(df)} records.")
         print("\n--- Data Preview ---")
         print(df.head())
-        print("\n--- Data Statistics ---")
-        print(df['value'].describe())
 
 if __name__ == "__main__":
+    # Fix for asyncio on Windows
+    if sys.platform == 'win32':
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     asyncio.run(main())
 ```
 
 Run your script from the terminal:
 
 ```bash
-py my_analysis.py
+py examples/my_analysis.py
 ```
 
-### 📚 Available Example Scripts
+### 🔧 DHIS2 Server Configuration
 
-The repository includes several example scripts demonstrating different use cases:
+The examples use public DHIS2 demo servers by default. To connect to your own server, you can configure it in one of the following ways:
 
-| Script | Description | Usage |
-|--------|-------------|-------|
-| `quick_demo.py` | Basic functionality demo with connection testing and data analysis | `py quick_demo.py` |
-| `demo_test.py` | Comprehensive API testing with data quality reports (HTML output) | `py demo_test.py` |
-| `real_health_data_demo.py` | Health data analysis with quality metrics and insights | `py real_health_data_demo.py` |
-| `paper.py` | Research paper material generation with visualizations | `py paper.py` |
-| `my_analysis.py` | Template for custom analysis projects | `py my_analysis.py` |
+**1. Environment Variables (Recommended)**
+```bash
+set DHIS2_URL=https://your-dhis2-server.com
+set DHIS2_USERNAME=your_username
+set DHIS2_PASSWORD=your_password
 
-**Run comprehensive examples:**
+# Then run any script
+py examples/my_analysis.py
+```
+
+**2. In Your Script**
+```python
+config = DHIS2Config(
+    base_url="https://your-dhis2-server.com",  
+    auth=("your_username", "your_password")
+)
+```
+
+**3. Using the CLI**
+```bash
+py -m pydhis2 config --url "https://your-dhis2-server.com" --username "your_username"
+```
+
+### 📚 More Examples
+
+The repository includes several scripts demonstrating different use cases:
+
+| Script | Description |
+|--------|-------------|
+| `quick_demo.py` | Basic functionality and connection testing |
+| `demo_test.py` | Comprehensive API testing with HTML reports |
+| `real_health_data_demo.py` | Health data analysis with quality metrics |
+| `my_analysis.py` | A template for your own custom analysis |
+
+You can run any of them using the CLI or as standalone scripts:
 
 ```bash
-# Basic demo with connection testing
-py quick_demo.py
+# Run a specific demo via CLI
+py -m pydhis2 demo health
 
-# Full API testing with DQR report
-py demo_test.py
-
-# Health data analysis demo  
-py real_health_data_demo.py
-
-# Research paper material generation
-py paper.py
+# Or run the Python script directly
+py examples/real_health_data_demo.py
 ```
-
-**Expected outputs:**
-- CSV data files with analysis results
-- HTML quality reports (`dqr_demo_report.html`)
-- Statistical summaries in JSON format
-- Visualization charts (PNG format)
-- Markdown reports for documentation
 
 ### 🖥️ Command Line Interface
 
-`pydhis2` also provides a powerful CLI for common operations:
+`pydhis2` provides a powerful CLI for common data operations.
 
+**Data Operations (Implementation in Progress):**
 ```bash
-# Check version
-pydhis2 version
-
-# Configure connection
-pydhis2 login --url "https://play.dhis2.org/dev" --username "admin"
-
 # Pull analytics data
-pydhis2 analytics pull --dx "Uvn6LCg7dVU" --ou "ImspTQPwCqd" --pe "LAST_12_MONTHS" --out analytics.parquet
+py -m pydhis2 analytics pull --dx "b6mCG9sphIT" --ou "qzGX4XdWufs" --pe "2023" --out analytics.parquet
 
-# Pull tracker events  
-pydhis2 tracker pull --program "program_id" --status COMPLETED --out events.parquet
+# Pull tracker events
+py -m pydhis2 tracker events --program "program_id" --out events.parquet
 
 # Run data quality review
-pydhis2 dqr run --input analytics.parquet --html dqr_report.html --json dqr_summary.json
-
-# Execute pipelines
-pydhis2 pipeline run --recipe pipeline_config.yml
+py -m pydhis2 dqr analyze --input analytics.parquet --html dqr_report.html --json dqr_summary.json
 ```
 
-For detailed CLI usage, run `pydhis2 --help` or check individual command help with `pydhis2 <command> --help`.
+For detailed CLI usage, run `py -m pydhis2 --help`.
+
 <details>
 <summary><strong>🚀 Reproducible Workflow: Using Project Templates</strong></summary>
 

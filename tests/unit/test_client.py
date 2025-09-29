@@ -2,7 +2,7 @@
 
 import pytest
 import asyncio
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock
 from pydhis2.core.types import DHIS2Config
 from pydhis2.core.client import AsyncDHIS2Client, ClientMetrics, SyncDHIS2Client, SyncEndpointProxy
 from pydhis2.core.errors import DHIS2HTTPError, AuthenticationError
@@ -523,8 +523,6 @@ class TestSyncDHIS2Client:
     def test_sync_client_basic(self):
         """Test basic sync client functionality"""
         from pydhis2.testing import MockDHIS2Server
-        import threading
-        import time
         
         # Run mock server in separate thread
         mock_server = MockDHIS2Server(port=8092)

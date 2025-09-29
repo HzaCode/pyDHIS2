@@ -1,6 +1,5 @@
 """Cache module - Support for ETag/Last-Modified caching and resumable downloads"""
 
-import asyncio
 import hashlib
 import json
 import time

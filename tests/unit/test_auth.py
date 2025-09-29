@@ -1,13 +1,13 @@
 """Tests for the auth module"""
 
 import base64
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock
 
 import aiohttp
 import pytest
 
 from pydhis2.core.auth import (
-    AuthProvider, BasicAuthProvider, TokenAuthProvider, 
+    BasicAuthProvider, TokenAuthProvider, 
     PATAuthProvider, SessionAuthProvider, AuthManager, create_auth_provider
 )
 from pydhis2.core.errors import AuthenticationError
@@ -284,8 +284,8 @@ class TestAuthIntegration:
         mock_response = AsyncMock()
         mock_response.status = 200
         
-        self.mock_session.post.return_value.__aenter__.return_value = mock_response
-        self.mock_session.post.return_value.__aexit__.return_value = None
+        mock_session.post.return_value.__aenter__.return_value = mock_response
+        mock_session.post.return_value.__aexit__.return_value = None
         
         await provider.login("admin", "district")
         

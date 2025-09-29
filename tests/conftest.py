@@ -2,11 +2,16 @@
 
 import pytest
 import asyncio
+import sys
 from typing import AsyncGenerator
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import AsyncMock
 
 from pydhis2.core.types import DHIS2Config
 from pydhis2.core.client import AsyncDHIS2Client
+
+# Set event loop policy for Windows
+if sys.platform == 'win32':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 
 @pytest.fixture

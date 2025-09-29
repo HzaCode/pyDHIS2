@@ -1,9 +1,8 @@
 """Pandas DataFrame converters"""
 
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List
 import pandas as pd
 import json
-from datetime import datetime
 
 
 class AnalyticsDataFrameConverter:

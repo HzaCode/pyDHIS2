@@ -2,8 +2,7 @@
 
 import tempfile
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
-from datetime import datetime
+from unittest.mock import AsyncMock, patch
 
 import pandas as pd
 import pytest
@@ -136,7 +135,7 @@ class TestTrackerEndpoint:
         # Mock converter
         expected_df = pd.DataFrame([{'event_id': 'event1'}, {'event_id': 'event2'}])
         with patch.object(self.endpoint.converter, 'events_to_dataframe', return_value=expected_df) as mock_convert:
-            result = await self.endpoint.events_to_pandas()
+            await self.endpoint.events_to_pandas()
         
         # Should have called converter with all events
         mock_convert.assert_called_once_with([{'event': 'event1'}, {'event': 'event2'}])
@@ -408,7 +407,7 @@ class TestTrackerEndpoint:
         """Test export events to CSV file"""
         mock_df = pd.DataFrame([{'event': 'event1', 'value': 100}])
         
-        with patch.object(self.endpoint, 'events_to_pandas', return_value=mock_df) as mock_events, \
+        with patch.object(self.endpoint, 'events_to_pandas', return_value=mock_df), \
              patch.object(mock_df, 'to_csv') as mock_to_csv:
             
             file_path = str(Path(self.temp_dir) / "events.csv")
@@ -583,7 +582,6 @@ class TestTrackerIntegration:
         self.mock_client.get.side_effect = responses
         
         # Mock converter to return appropriate DataFrames
-        dfs = [pd.DataFrame([{'event_id': f'event{i}'}]) for i in range(1, 4)]
         
         with patch.object(self.endpoint.converter, 'events_to_dataframe', return_value=pd.DataFrame([{'event_id': 'combined'}])):
             result = await self.endpoint.events_to_pandas()

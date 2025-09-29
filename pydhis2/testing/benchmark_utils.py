@@ -3,7 +3,7 @@
 import time
 import asyncio
 import statistics
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List
 from dataclasses import dataclass, field
 from contextlib import asynccontextmanager
 import logging

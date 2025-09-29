@@ -24,9 +24,9 @@ class DHIS2Config(BaseModel):
     Configuration model for the DHIS2 client.
     """
     base_url: str = Field(..., description="Base URL of the DHIS2 instance")
-    auth: Tuple[str, str] = Field(..., description="Username and password for authentication")
+    auth: Optional[Union[Tuple[str, str], str]] = Field(None, description="Authentication: tuple for basic auth or string for token")
     api_version: Optional[Union[int, str]] = Field(None, description="DHIS2 API version")
-    user_agent: str = Field("pydhis2/0.1.0", description="User-Agent for requests")
+    user_agent: str = Field("pydhis2/0.2.0", description="User-Agent for requests")
     
     # Timeout settings (total) - Increased default for more resilience
     timeout: float = Field(60.0, description="Total request timeout in seconds")
@@ -48,6 +48,43 @@ class DHIS2Config(BaseModel):
     retry_on_status: List[int] = Field(
         [429, 500, 502, 503, 504], description="HTTP status codes that trigger a retry"
     )
+
+    @validator('base_url')
+    def validate_base_url(cls, v):
+        """Validate and normalize base URL"""
+        if not v.startswith(('http://', 'https://')):
+            raise ValueError('Base URL must start with http:// or https://')
+        # Remove trailing slash
+        return v.rstrip('/')
+
+    @validator('auth')
+    def validate_auth(cls, v):
+        """Validate authentication"""
+        if v is None:
+            return v
+        if isinstance(v, tuple):
+            if len(v) != 2:
+                raise ValueError('Authentication tuple must have exactly 2 elements (username, password)')
+            return v
+        if isinstance(v, str):
+            return v
+        raise ValueError('Authentication must be a tuple or string')
+
+    @validator('timeout')
+    def validate_timeout(cls, v):
+        """Validate timeout"""
+        if v <= 0:
+            raise ValueError('Timeout must be positive')
+        return v
+
+    @property
+    def auth_method(self) -> AuthMethod:
+        """Get authentication method"""
+        if self.auth is None:
+            return AuthMethod.BASIC  # Default fallback
+        if isinstance(self.auth, tuple):
+            return AuthMethod.BASIC
+        return AuthMethod.TOKEN
 
     class Config:
         frozen = True
@@ -80,15 +117,20 @@ class AnalyticsQuery(BaseModel):
     def to_params(self) -> Dict[str, Any]:
         """Convert to request parameters"""
         params = {}
+        dimensions = []
         
-        # Process dimensions
+        # Process dimensions - use correct DHIS2 Analytics API format
         for dim in ['dx', 'ou', 'pe', 'co', 'ao']:
             value = getattr(self, dim)
             if value is not None:
                 if isinstance(value, list):
-                    params[f'dimension={dim}'] = ';'.join(value)
+                    dimensions.append(f'{dim}:{";".join(value)}')
                 else:
-                    params[f'dimension={dim}'] = value
+                    dimensions.append(f'{dim}:{value}')
+        
+        # Add dimensions as multiple dimension parameters
+        if dimensions:
+            params['dimension'] = dimensions
         
         # Other parameters
         params.update({
@@ -128,11 +170,11 @@ class ImportConfig(BaseModel):
     chunk_size: int = Field(5000, description="Chunk size", gt=0)
     max_chunks: Optional[int] = Field(None, description="Maximum number of chunks")
     
-    # 冲突处理
+    # Conflict handling
     skip_existing_check: bool = Field(False, description="Skip existing check")
     skip_audit: bool = Field(False, description="Skip audit")
     
-    # 性能选项
+    # Performance options
     async_import: bool = Field(False, description="Whether to perform async import")
     force: bool = Field(False, description="Force import")
 

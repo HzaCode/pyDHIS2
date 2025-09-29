@@ -1,6 +1,6 @@
 """WHO-DQR core metrics implementation"""
 
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Dict, List, Optional, Any
 import pandas as pd
 import numpy as np
 from abc import ABC, abstractmethod

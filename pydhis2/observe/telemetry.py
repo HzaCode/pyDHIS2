@@ -1,7 +1,6 @@
 """OpenTelemetry integration module"""
 
-import time
-from typing import Any, Dict, Optional, Union
+from typing import Optional
 from contextlib import contextmanager
 import logging
 
@@ -31,7 +30,7 @@ class TelemetryManager:
     def __init__(
         self,
         service_name: str = "pydhis2",
-        service_version: str = "0.1.0",
+        service_version: str = "0.2.0",
         enable_traces: bool = True,
         enable_metrics: bool = True,
         jaeger_endpoint: Optional[str] = None,
@@ -286,7 +285,7 @@ _telemetry_manager: Optional[TelemetryManager] = None
 
 def setup_telemetry(
     service_name: str = "pydhis2",
-    service_version: str = "0.1.0",
+    service_version: str = "0.2.0",
     enable_traces: bool = True,
     enable_metrics: bool = True,
     jaeger_endpoint: Optional[str] = None,
@@ -366,7 +365,7 @@ class TelemetryConfig:
         self,
         enable: bool = False,
         service_name: str = "pydhis2",
-        service_version: str = "0.1.0",
+        service_version: str = "0.2.0",
         traces: bool = True,
         metrics: bool = True,
         jaeger_endpoint: Optional[str] = None,

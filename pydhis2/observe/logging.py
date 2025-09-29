@@ -3,7 +3,7 @@
 import logging
 import json
 import sys
-from typing import Any, Dict, Optional
+from typing import Optional
 from datetime import datetime
 
 
@@ -65,17 +65,17 @@ def setup_logging(
 ) -> None:
     """Setup logging configuration"""
     
-    # 设置日志级别
+    # Set log level
     log_level = getattr(logging, level.upper(), logging.INFO)
     
-    # 创建根日志器
+    # Create root logger
     root_logger = logging.getLogger()
     root_logger.setLevel(log_level)
     
-    # 清除现有处理器
+    # Clear existing handlers
     root_logger.handlers.clear()
     
-    # 控制台处理器
+    # Console handler
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(log_level)
     
@@ -93,7 +93,7 @@ def setup_logging(
     
     root_logger.addHandler(console_handler)
     
-    # 文件处理器（如果指定）
+    # File handler (if specified)
     if log_file:
         file_handler = logging.FileHandler(log_file, encoding='utf-8')
         file_handler.setLevel(log_level)
@@ -104,19 +104,19 @@ def setup_logging(
         
         root_logger.addHandler(file_handler)
     
-    # 第三方库日志级别
+    # Third-party library log levels
     logging.getLogger('aiohttp').setLevel(logging.WARNING)
     logging.getLogger('urllib3').setLevel(logging.WARNING)
 
 
 def get_logger(name: str, **extra_fields) -> logging.Logger:
-    """获取带额外字段的日志器"""
+    """Get logger with extra fields"""
     logger = logging.getLogger(name)
     
-    # 创建适配器来添加额外字段
+    # Create adapter to add extra fields
     class ExtraFieldsAdapter(logging.LoggerAdapter):
         def process(self, msg, kwargs):
-            # 合并额外字段
+            # Merge extra fields
             if 'extra' not in kwargs:
                 kwargs['extra'] = {}
             kwargs['extra']['extra_fields'] = {**extra_fields, **kwargs['extra'].get('extra_fields', {})}
@@ -125,9 +125,9 @@ def get_logger(name: str, **extra_fields) -> logging.Logger:
     return ExtraFieldsAdapter(logger, extra_fields)
 
 
-# 便利函数
+# Convenience functions
 def log_request(logger: logging.Logger, method: str, url: str, status: Optional[int] = None, **kwargs):
-    """记录HTTP请求"""
+    """Log HTTP request"""
     extra_fields = {
         'http_method': method,
         'http_url': url,
@@ -146,7 +146,7 @@ def log_request(logger: logging.Logger, method: str, url: str, status: Optional[
 
 
 def log_retry(logger: logging.Logger, attempt: int, max_attempts: int, delay: float, **kwargs):
-    """记录重试"""
+    """Log retry attempt"""
     extra_fields = {
         'retry_attempt': attempt,
         'retry_max_attempts': max_attempts,
@@ -163,7 +163,7 @@ def log_retry(logger: logging.Logger, attempt: int, max_attempts: int, delay: fl
 
 
 def log_rate_limit(logger: logging.Logger, current_rate: float, limit: float, wait_time: float, **kwargs):
-    """记录限流"""
+    """Log rate limiting"""
     extra_fields = {
         'rate_current': current_rate,
         'rate_limit': limit,

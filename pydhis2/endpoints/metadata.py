@@ -1,12 +1,12 @@
 """Metadata endpoint - Metadata import, export, and management"""
 
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, Optional, Union
 import json
 
 import pandas as pd
 
-from pydhis2.core.types import ImportConfig, ExportFormat
-from pydhis2.core.errors import ImportConflictError, MetadataError
+from pydhis2.core.types import ExportFormat
+from pydhis2.core.errors import ImportConflictError
 
 
 class MetadataImportSummary:
@@ -181,7 +181,7 @@ class MetadataEndpoint:
         
         if filter:
             for key, value in filter.items():
-                params[f'filter'] = f'{key}:eq:{value}'
+                params['filter'] = f'{key}:eq:{value}'
         
         params.update(kwargs)
         
@@ -202,7 +202,7 @@ class MetadataEndpoint:
         
         if filter:
             for key, value in filter.items():
-                params[f'filter'] = f'{key}:eq:{value}'
+                params['filter'] = f'{key}:eq:{value}'
         
         params.update(kwargs)
         
@@ -223,7 +223,7 @@ class MetadataEndpoint:
         
         if filter:
             for key, value in filter.items():
-                params[f'filter'] = f'{key}:eq:{value}'
+                params['filter'] = f'{key}:eq:{value}'
         
         params.update(kwargs)
         
@@ -244,7 +244,7 @@ class MetadataEndpoint:
         
         if filter:
             for key, value in filter.items():
-                params[f'filter'] = f'{key}:eq:{value}'
+                params['filter'] = f'{key}:eq:{value}'
         
         params.update(kwargs)
         

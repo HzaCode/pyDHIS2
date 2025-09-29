@@ -3,7 +3,7 @@
 import pytest
 import asyncio
 import aiohttp
-from unittest.mock import AsyncMock, MagicMock
+from unittest.mock import MagicMock
 from pydhis2.core.retry import (
     RetryConfig, 
     RetryManager, 

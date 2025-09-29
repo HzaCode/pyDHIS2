@@ -7,7 +7,7 @@ import pandas as pd
 import logging
 
 from pydhis2.core.client import AsyncDHIS2Client
-from pydhis2.core.types import AnalyticsQuery, ExportFormat
+from pydhis2.core.types import AnalyticsQuery
 from pydhis2.dqr.metrics import CompletenessMetrics, ConsistencyMetrics, TimelinessMetrics
 from .config import StepConfig
 
@@ -283,7 +283,6 @@ class DQRStep(PipelineStep):
     def _generate_html_report(self, results, data, output_path):
         """Generate HTML report"""
         from jinja2 import Template
-        from datetime import datetime
         
         # Simplified HTML template
         html_template = """

@@ -3,7 +3,6 @@
 import pytest
 import asyncio
 import time
-from unittest.mock import patch
 from pydhis2.core.rate_limit import (
     RateLimiter,
     HostRateLimiter, 
@@ -11,7 +10,6 @@ from pydhis2.core.rate_limit import (
     GlobalRateLimiter,
     AdaptiveRateLimiter
 )
-from pydhis2.core.errors import RateLimitExceeded
 
 
 class TestRateLimiter:

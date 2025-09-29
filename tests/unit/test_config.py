@@ -47,7 +47,7 @@ def test_dhis2_config_timeout_validation():
         DHIS2Config(
             base_url="https://play.dhis2.org/2.41",
             auth=("user", "pass"),
-            timeouts=(10, 60, 30)  # total < read
+            timeout=-1  # negative timeout
         )
 
 

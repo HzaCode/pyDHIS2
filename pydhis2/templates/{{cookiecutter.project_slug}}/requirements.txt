@@ -1,9 +1,9 @@
-# Core dependencies
-pydhis2>=0.1.0
-
-# Data analysis
-pandas>=1.5.0
-numpy>=1.20.0
+# Base requirements for the project
+pydhis2>=0.2.0
+pandas
+pyarrow
+openpyxl
+# Add other dependencies here
 
 {% if cookiecutter.use_notebooks == "yes" -%}
 # Jupyter notebooks

@@ -1,0 +1,70 @@
+[
+  {
+    "server": "EMIS Demo",
+    "base": "https://emis.dhis2.org/demo",
+    "ok": true,
+    "version": "2.40.4.1",
+    "systemId": "ca37253e-3727-4f73-838c-475ea3c7a432",
+    "contextPath": "https://emis.dhis2.org/demo",
+    "results": {
+      "dataElements": {
+        "ok": true,
+        "observed_count": 530,
+        "pager_total": 530,
+        "duplicates": 0,
+        "missing_pages": [],
+        "checksum": "dd0f27ecbe35f9f0f19be4041e48dd03b76ddae6"
+      },
+      "organisationUnits": {
+        "ok": true,
+        "observed_count": 3596,
+        "pager_total": 3596,
+        "duplicates": 0,
+        "missing_pages": [],
+        "checksum": "86792351124542ebaa5e85f60ea51e065bc4e5e1"
+      }
+    }
+  },
+  {
+    "server": "Play (android-current)",
+    "base": "https://play.dhis2.org/android-current",
+    "ok": false,
+    "stage": "system/info",
+    "http_status": 401,
+    "sample": "{\"httpStatus\":\"Unauthorized\",\"httpStatusCode\":401,\"status\":\"ERROR\",\"message\":\"Unauthorized\"}"
+  },
+  {
+    "server": "HMIS v41 Demo",
+    "base": "https://demos.dhis2.org/hmis_v41",
+    "ok": false,
+    "stage": "system/info",
+    "http_status": 401,
+    "sample": "{\"httpStatus\":\"Unauthorized\",\"httpStatusCode\":401,\"status\":\"ERROR\",\"message\":\"Account disabled\"}"
+  },
+  {
+    "server": "Data Quality Demo",
+    "base": "https://demos.dhis2.org/dq",
+    "ok": true,
+    "version": "2.38.4.3",
+    "systemId": null,
+    "contextPath": "https://demos.dhis2.org/dq",
+    "results": {
+      "dataElements": {
+        "ok": true,
+        "observed_count": 301,
+        "pager_total": 301,
+        "duplicates": 0,
+        "missing_pages": [],
+        "checksum": "c7f6444929ac9596565fcba8f67bad5a551877ae"
+      },
+      "organisationUnits": {
+        "ok": true,
+        "observed_count": 654,
+        "pager_total": 654,
+        "duplicates": 0,
+        "missing_pages": [],
+        "checksum": "3431b2bdcb9fba431c5a727ce08b505c1e3edbf3"
+      }
+    }
+  }
+]

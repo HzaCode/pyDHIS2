@@ -8,7 +8,6 @@ from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import aiohttp
-import pytest
 
 from pydhis2.core.cache import CacheEntry, HTTPCache, ResumableDownloader, CachedSession
 
@@ -288,7 +287,7 @@ class TestHTTPCache:
         with open(self.cache.index_file, 'w') as f:
             f.write("invalid json")
         
-        cache = HTTPCache(cache_dir=self.temp_dir)
+        HTTPCache(cache_dir=self.temp_dir)
         
         mock_logger.warning.assert_called_once()
         assert "Failed to load cache index" in mock_logger.warning.call_args[0][0]

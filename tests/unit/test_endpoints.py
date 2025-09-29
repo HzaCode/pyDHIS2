@@ -2,7 +2,7 @@
 
 import pytest
 import pandas as pd
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 from pydhis2.core.types import AnalyticsQuery, ImportConfig, ImportStrategy, ExportFormat
 from pydhis2.endpoints.analytics import AnalyticsEndpoint
 from pydhis2.endpoints.datavaluesets import DataValueSetsEndpoint, ImportSummary
@@ -90,7 +90,7 @@ class TestAnalyticsEndpoint:
         
         query = AnalyticsQuery(dx="DE123", ou="OU456", pe="202301")
         
-        result = await analytics_endpoint.validate_query(query)
+        await analytics_endpoint.validate_query(query)
         
         # Should add dryRun parameter
         expected_params = query.to_params()
@@ -131,7 +131,7 @@ class TestAnalyticsEndpoint:
         
         query = AnalyticsQuery(dx="DE123", ou="OU456", pe="202301")
         
-        result = await analytics_endpoint.raw(query, output_format="csv")
+        await analytics_endpoint.raw(query, output_format="csv")
         
         expected_params = query.to_params()
         expected_params['format'] = 'csv'
@@ -864,7 +864,7 @@ class TestDataValueSetsEndpoint:
         datavaluesets_endpoint.client.post.return_value = success_response
         
         # Resume from chunk 1 (should skip first chunk)
-        summary = await datavaluesets_endpoint.push(data, chunk_size=4000, resume_from_chunk=1)
+        await datavaluesets_endpoint.push(data, chunk_size=4000, resume_from_chunk=1)
         
         # Should only make 1 API call (starting from chunk 1, which is the second chunk)
         assert datavaluesets_endpoint.client.post.call_count == 1
@@ -1073,7 +1073,7 @@ class TestEndpointIntegration:
     @pytest.mark.asyncio
     async def test_datavaluesets_import_end_to_end(self):
         """Test DataValueSets import end-to-end"""
-        from pydhis2.testing import MockDHIS2Server, TestDataGenerator
+        from pydhis2.testing import MockDHIS2Server
         
         # Setup mock server
         mock_server = MockDHIS2Server(port=8086)

@@ -3,13 +3,13 @@
 import json
 import tempfile
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 
 import pandas as pd
 import pytest
 
 from pydhis2.endpoints.metadata import MetadataEndpoint, MetadataImportSummary
-from pydhis2.core.errors import ImportConflictError, MetadataError
+from pydhis2.core.errors import ImportConflictError
 from pydhis2.core.types import ExportFormat
 
 

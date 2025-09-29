@@ -1,15 +1,12 @@
 """DataValueSets endpoint - Data value set reading and import"""
 
-from typing import Any, Dict, List, Optional, Union, AsyncIterator
-import asyncio
+from typing import Any, Dict, Optional, Union, AsyncIterator
 import json
-from datetime import datetime
 import math
 
 import pandas as pd
-import pyarrow as pa
 
-from pydhis2.core.types import ImportConfig, ImportStrategy, ExportFormat
+from pydhis2.core.types import ImportConfig, ExportFormat
 from pydhis2.core.errors import ImportConflictError
 from pydhis2.io.to_pandas import DataValueSetsConverter
 from pydhis2.io.arrow import ArrowConverter
@@ -154,7 +151,7 @@ class DataValueSetsEndpoint:
                 if max_pages and page >= max_pages:
                     break
                 
-            except Exception as e:
+            except Exception:
                 # Some DHIS2 versions may not support paging
                 if page == 1:
                     # Fallback to non-paginated mode

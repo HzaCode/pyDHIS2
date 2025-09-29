@@ -1,11 +1,8 @@
 """Tracker endpoint - Event and entity queries and management"""
 
-from typing import Any, Dict, List, Optional, Union, AsyncIterator
-import asyncio
-from datetime import datetime
+from typing import Any, Dict, Optional, AsyncIterator
 
 import pandas as pd
-import pyarrow as pa
 
 from pydhis2.core.types import ExportFormat
 from pydhis2.io.to_pandas import TrackerConverter

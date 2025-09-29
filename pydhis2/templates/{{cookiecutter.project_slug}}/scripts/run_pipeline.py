@@ -13,6 +13,9 @@ import sys
 from pathlib import Path
 import argparse
 import logging
+import pandas as pd
+import yaml
+from dotenv import load_dotenv
 
 # Add project root to Python path
 project_root = Path(__file__).parent.parent
@@ -27,11 +30,6 @@ except ImportError as e:
     print(f"Error: Failed to import pydhis2 module: {e}")
     print("Please ensure pydhis2 is installed: pip install pydhis2")
     sys.exit(1)
-
-# Import other dependencies
-import pandas as pd
-import yaml
-from dotenv import load_dotenv
 
 # Configure logging
 logging.basicConfig(
@@ -143,7 +141,7 @@ def save_results(df: pd.DataFrame, dqr_results: dict, output_dir: Path):
 
 async def main():
     """Main function"""
-    parser = argparse.ArgumentParser(description=f"Run {{ cookiecutter.project_name }} data analysis pipeline")
+    parser = argparse.ArgumentParser(description="Run { cookiecutter.project_name } data analysis pipeline")
     parser.add_argument('--config', default='configs/dhis2.yml', help='Path to configuration file')
     parser.add_argument('--output', default='data/results', help='Output directory')
     args = parser.parse_args()

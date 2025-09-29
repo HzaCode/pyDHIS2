@@ -3,23 +3,20 @@
 import asyncio
 import random
 import time
-from typing import Any, Callable, Dict, List, Optional, Set, Type, Union
+from typing import Any, Callable, Dict, List, Optional, Set, Type
 from dataclasses import dataclass, field
 from abc import ABC, abstractmethod
 
 import aiohttp
 from tenacity import (
-    Retrying,
     AsyncRetrying,
-    RetryError,
     stop_after_attempt,
     wait_exponential,
     wait_fixed,
     retry_if_exception_type,
-    retry_if_result,
 )
 
-from pydhis2.core.errors import RetryExhausted, DHIS2HTTPError
+from pydhis2.core.errors import RetryExhausted
 
 
 @dataclass
