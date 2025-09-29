@@ -2,6 +2,7 @@
 
 import asyncio
 import time
+import threading
 from typing import Dict, Optional
 from collections import deque
 
@@ -82,11 +83,11 @@ class HostRateLimiter:
     def __init__(self, default_rate: float = 10.0):
         self.default_rate = default_rate
         self._limiters: Dict[str, RateLimiter] = {}
-        self._lock = asyncio.Lock()
+        self._lock = threading.Lock()
     
     async def get_limiter(self, host: str, rate: Optional[float] = None) -> RateLimiter:
         """Get or create a host limiter"""
-        async with self._lock:
+        with self._lock:
             if host not in self._limiters:
                 limiter_rate = rate or self.default_rate
                 self._limiters[host] = RateLimiter(limiter_rate)
@@ -109,7 +110,7 @@ class RouteRateLimiter:
         self.default_rate = default_rate
         self._limiters: Dict[str, RateLimiter] = {}
         self._route_configs: Dict[str, float] = {}
-        self._lock = asyncio.Lock()
+        self._lock = threading.Lock()
     
     def configure_route(self, route_pattern: str, rate: float) -> None:
         """Configure the rate limit for a specific route"""
@@ -128,7 +129,7 @@ class RouteRateLimiter:
         route_pattern = self._match_route(path)
         cache_key = route_pattern or 'default'
         
-        async with self._lock:
+        with self._lock:
             if cache_key not in self._limiters:
                 if route_pattern and route_pattern in self._route_configs:
                     rate = self._route_configs[route_pattern]
