@@ -26,11 +26,17 @@ classifiers = [
 requires-python = ">=3.9"
 dependencies = [
     "aiohttp>=3.8.0",
+    "aiolimiter>=1.0.0",
     "pandas>=1.5.0",
     "pydantic>=2.0.0",
     "pyyaml>=6.0",
     "click>=8.0.0",
     "cookiecutter>=2.1.0",
+    "opentelemetry-api>=1.15.0",
+    "opentelemetry-sdk>=1.15.0",
+    "opentelemetry-exporter-jaeger-thrift>=1.15.0",
+    "opentelemetry-exporter-prometheus>=1.15.0",
+    "opentelemetry-instrumentation-aiohttp-client>=0.36b0",
 ]
 
 [project.optional-dependencies]
