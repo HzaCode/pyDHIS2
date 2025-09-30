@@ -36,9 +36,7 @@
     <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff">
   </a>
   
-  <!-- In Submission -->
-  <a href="#">
-    <img src="https://img.shields.io/badge/status-in%20submission-lightgrey" alt="in submission">
+
   </a>
 </p>
 
