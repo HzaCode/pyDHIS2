@@ -49,8 +49,7 @@
 ---
 ## 🎉 `pydhis2` is officially released!
 
-<details>
-<summary><strong>🚀 Getting Started</strong></summary>
+><strong>🚀 Getting Started</strong></summary>
 
 **1. Installation**
 
