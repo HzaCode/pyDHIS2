@@ -42,7 +42,7 @@
 
 
 <p style="font-size:1.15rem; line-height:1.6;">
-  <strong>Quite possibly the most complete python toolkit <em>for</em> DHIS2<br>— a modern SDK designed for reproducible workflows in LMIC scenarios.</strong>
+  <strong>Mmodern SDK designed for reproducible workflows in LMIC scenarios.</strong>
 </p>
 </div>
 
