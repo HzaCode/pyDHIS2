@@ -18,76 +18,111 @@ Basic Usage
 .. code-block:: python
 
    from pydhis2 import get_client, DHIS2Config
-   from pydhis2.dqr import DQRMetrics
+   from pydhis2.core.types import AnalyticsQuery
+   from pydhis2.dqr.metrics import CompletenessMetrics, ConsistencyMetrics, TimelinessMetrics
    
    AsyncDHIS2Client, _ = get_client()
    config = DHIS2Config()
    
    async with AsyncDHIS2Client(config) as client:
        # Fetch analytics data
-       query = AnalyticsQuery(dx=["..."], ou="...", pe="...")
+       query = AnalyticsQuery(dx=["indicator_id"], ou="org_unit_id", pe="2023")
        df = await client.analytics.to_pandas(query)
        
        # Run DQR analysis
-       dqr = DQRMetrics(df)
-       results = dqr.assess_all()
-       print(results)
+       completeness = CompletenessMetrics()
+       consistency = ConsistencyMetrics()
+       timeliness = TimelinessMetrics()
+       
+       completeness_results = completeness.calculate(df)
+       consistency_results = consistency.calculate(df)
+       timeliness_results = timeliness.calculate(df)
+       
+       for result in completeness_results + consistency_results + timeliness_results:
+           print(f"{result.metric_name}: {result.value:.2%} ({result.status})")
 
 Completeness Metrics
 --------------------
 
 .. code-block:: python
 
-   dqr = DQRMetrics(df)
+   from pydhis2.dqr.metrics import CompletenessMetrics
    
-   # Reporting completeness
-   completeness = dqr.reporting_completeness()
-   print(f"Completeness: {completeness:.2%}")
+   completeness = CompletenessMetrics()
+   results = completeness.calculate(df)
    
-   # Missing data analysis
-   missing = dqr.missing_data_analysis()
-   print(missing)
+   for result in results:
+       print(f"{result.metric_name}: {result.value:.2%}")
+       print(f"Status: {result.status}")
+       print(f"Message: {result.message}")
+       print(f"Details: {result.details}")
 
 Consistency Metrics
 -------------------
 
 .. code-block:: python
 
-   # Outlier detection
-   outliers = dqr.detect_outliers(threshold=3.0)
-   print(f"Found {len(outliers)} outliers")
+   from pydhis2.dqr.metrics import ConsistencyMetrics
    
-   # Variance analysis
-   variance = dqr.variance_analysis()
-   print(variance)
+   consistency = ConsistencyMetrics()
+   results = consistency.calculate(df)
+   
+   for result in results:
+       print(f"{result.metric_name}: {result.value:.2%}")
+       if result.metric_name == "outlier_detection":
+           print(f"Outliers detected: {result.details.get('outlier_count')}")
 
 Timeliness Metrics
 ------------------
 
 .. code-block:: python
 
-   # Submission timeliness
-   timeliness = dqr.submission_timeliness()
-   print(f"On-time submissions: {timeliness:.2%}")
+   from pydhis2.dqr.metrics import TimelinessMetrics
+   
+   timeliness = TimelinessMetrics()
+   results = timeliness.calculate(df)
+   
+   for result in results:
+       print(f"{result.metric_name}: {result.value:.2%}")
+       print(f"Timely records: {result.details.get('timely_records')}/{result.details.get('total_records')}")
 
 Generating Reports
 ------------------
 
-HTML Report
-~~~~~~~~~~~
-
-.. code-block:: python
-
-   dqr.generate_report(output="dqr_report.html", format="html")
-
-JSON Summary
-~~~~~~~~~~~~
+Collect All Results
+~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
    import json
+   from pydhis2.dqr.metrics import CompletenessMetrics, ConsistencyMetrics, TimelinessMetrics
    
-   summary = dqr.summary()
+   # Calculate all metrics
+   completeness = CompletenessMetrics()
+   consistency = ConsistencyMetrics()
+   timeliness = TimelinessMetrics()
+   
+   all_results = (
+       completeness.calculate(df) +
+       consistency.calculate(df) +
+       timeliness.calculate(df)
+   )
+   
+   # Convert to summary dict
+   summary = {
+       "metrics": [
+           {
+               "name": r.metric_name,
+               "value": r.value,
+               "status": r.status,
+               "message": r.message,
+               "details": r.details
+           }
+           for r in all_results
+       ]
+   }
+   
+   # Save to JSON
    with open("dqr_summary.json", "w") as f:
        json.dump(summary, f, indent=2)
 

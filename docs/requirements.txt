@@ -5,4 +5,5 @@ sphinx-autodoc-typehints>=1.25.0,<2.0.0
 myst-parser>=2.0.0,<3.0.0
 sphinx-copybutton>=0.5.2,<1.0.0
 sphinxcontrib-napoleon>=0.7,<1.0.0
+linkify-it-py>=2.0.0,<3.0.0
 

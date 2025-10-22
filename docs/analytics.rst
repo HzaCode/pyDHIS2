@@ -93,7 +93,26 @@ Parquet
 
 .. code-block:: python
 
-   await client.analytics.to_parquet(query, "output.parquet")
+   from pydhis2.core.types import ExportFormat
+   
+   await client.analytics.export_to_file(
+       query,
+       "output.parquet",
+       format=ExportFormat.PARQUET
+   )
+
+CSV
+~~~
+
+.. code-block:: python
+
+   from pydhis2.core.types import ExportFormat
+   
+   await client.analytics.export_to_file(
+       query,
+       "output.csv",
+       format=ExportFormat.CSV
+   )
 
 Arrow
 ~~~~~
@@ -101,25 +120,24 @@ Arrow
 .. code-block:: python
 
    table = await client.analytics.to_arrow(query)
+   print(table.schema)
 
-CSV
-~~~
-
-.. code-block:: python
-
-   df = await client.analytics.to_pandas(query)
-   df.to_csv("output.csv", index=False)
-
-Pagination
-----------
+Pagination and Streaming
+-------------------------
 
 For large datasets:
 
 .. code-block:: python
 
-   async for page in client.analytics.stream(query, page_size=1000):
-       print(f"Processing {len(page)} records")
-       # Process each page
+   async with AsyncDHIS2Client(config) as client:
+       async for page_df in client.analytics.stream_paginated(
+           query,
+           page_size=1000,
+           max_pages=10
+       ):
+           print(f"Processing {len(page_df)} records")
+           # Process each page DataFrame
+           # page_df is a pandas DataFrame
 
 Filters
 -------
