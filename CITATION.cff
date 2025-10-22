@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "pydhis2: A Modern Python SDK for DHIS2"
+version: 0.2.0
+date-released: "2025-01-01"
+abstract: "A next-generation Python library for interacting with DHIS2, the world's largest health information management system. It provides a clean, modern, and efficient API for data extraction, analysis, and management, with a strong emphasis on creating reproducible workflows for scientific research and public health analysis in Low and Middle-Income Country (LMIC) contexts."
+
+authors:
+  - family-names: "pydhis2 contributors"
+    affiliation: "pydhis2 Project"
+
+repository-code: "https://github.com/HzaCode/pydhis2"
+url: "https://github.com/HzaCode/pydhis2"
+license: Apache-2.0
+
+keywords:
+  - DHIS2
+  - health information systems
+  - public health
+  - data analysis
+  - reproducible research
+  - LMIC
+  - Python SDK
+  - epidemiology
+  - health data
+
+preferred-citation:
+  type: software
+  title: "pydhis2: A Modern Python SDK for DHIS2"
+  authors:
+    - family-names: "pydhis2 contributors"
+      affiliation: "pydhis2 Project"
+  version: 0.2.0
+  year: 2025
+  url: "https://github.com/HzaCode/pydhis2"
+  license: Apache-2.0
+

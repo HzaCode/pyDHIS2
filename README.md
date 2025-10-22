@@ -10,29 +10,33 @@
   </p>
 
 <p align="center">
-  <!-- Pepy Weekly Downloads -->
-  <a href="https://pepy.tech/project/pydhis2">
-    <img src="https://img.shields.io/pepy/dt/pydhis2?style=for-the-badge&color=306998&label=Downloads&logo=python" alt="Total Downloads on Pepy">
-  </a>
   <!-- PyPI Version -->
   <a href="https://pypi.org/project/pydhis2">
-    <img src="https://img.shields.io/pypi/v/pydhis2.svg?style=for-the-badge" alt="PyPI version">
+    <img src="https://img.shields.io/pypi/v/pydhis2?style=flat&color=blue" alt="PyPI version">
   </a>
   <!-- Python Version -->
   <a href="https://pypi.org/project/pydhis2/">
-    <img src="https://img.shields.io/pypi/pyversions/pydhis2.svg?style=for-the-badge" alt="Supported Python versions">
+    <img src="https://img.shields.io/pypi/pyversions/pydhis2?style=flat&color=blue" alt="Python versions">
   </a>
-  <!-- Test Status -->
+  <!-- Downloads -->
+  <a href="https://pepy.tech/project/pydhis2">
+    <img src="https://img.shields.io/pepy/dt/pydhis2?style=flat&color=blue" alt="Downloads">
+  </a>
+  <!-- Test Passing -->
   <a href="https://github.com/HzaCode/pydhis2/actions/workflows/ci.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/HzaCode/pydhis2/ci.yml?style=for-the-badge&logo=github" alt="CI Test Status">
+    <img src="https://img.shields.io/badge/tests-passing-brightgreen?style=flat" alt="Tests">
+  </a>
+  <!-- Docs Passing -->
+  <a href="https://hzacode.github.io/pydhis2">
+    <img src="https://img.shields.io/badge/docs-passing-brightgreen?style=flat" alt="Docs">
   </a>
   <!-- License -->
   <a href="https://opensource.org/licenses/Apache-2.0">
-    <img src="https://img.shields.io/badge/License-Apache%202.0-green.svg?style=for-the-badge" alt="License: Apache 2.0">
+    <img src="https://img.shields.io/badge/license-Apache%202.0-green?style=flat" alt="License">
   </a>
   <!-- Ruff -->
   <a href="https://github.com/astral-sh/ruff">
-    <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json&style=for-the-badge" alt="Code style: Ruff">
+    <img src="https://img.shields.io/badge/code%20style-ruff-black?style=flat" alt="Ruff">
   </a>
 </p>
 </div>
@@ -252,9 +256,10 @@ Please see our [**Contributing Guide**](CONTRIBUTING.md) for details on how to g
 
 ## 📞 Community & Support
 
-*   📖 **[Documentation](https://pydhis2.readthedocs.io)**: For in-depth guides and API references.
-*   🐛 **[GitHub Issues](https://github.com/pydhis2/pydhis2/issues)**: To report bugs or request new features.
-*   💬 **[GitHub Discussions](https://github.com/pydhis2/pydhis2/discussions)**: For questions, ideas, and community conversation.
+*   📖 **[Documentation](https://hzacode.github.io/pydhis2)**: For in-depth guides and API references.
+*   🐛 **[GitHub Issues](https://github.com/HzaCode/pydhis2/issues)**: To report bugs or request new features.
+*   💬 **[GitHub Discussions](https://github.com/HzaCode/pydhis2/discussions)**: For questions, ideas, and community conversation.
+*   📝 **[Changelog](https://github.com/HzaCode/pydhis2/blob/main/CHANGELOG.md)**: Version history and release notes.
 
 ## 📄 License
 

@@ -9,7 +9,10 @@ description = "Reproducible DHIS2 Python SDK for LMIC scenarios"
 readme = "README.md"
 license = {text = "Apache-2.0"}
 authors = [
-    {name = "pydhis2 contributors"}
+    {name = "pydhis2 contributors", email = "pydhis2@github.com"}
+]
+maintainers = [
+    {name = "pydhis2 contributors", email = "pydhis2@github.com"}
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -25,38 +28,41 @@ classifiers = [
 ]
 requires-python = ">=3.9"
 dependencies = [
-    "aiohttp>=3.8.0",
-    "aiofiles>=23.0.0",
-    "aiolimiter>=1.0.0",
-    "tenacity>=8.0.0",
-    "pandas>=1.5.0",
-    "pyarrow>=10.0.0",
-    "numpy>=1.20.0",
-    "pydantic>=2.0.0",
-    "pyyaml>=6.0",
-    "click>=8.0.0",
-    "typer>=0.9.0",
-    "cookiecutter>=2.1.0",
-    "opentelemetry-api>=1.15.0",
-    "opentelemetry-sdk>=1.15.0",
-    "opentelemetry-exporter-jaeger-thrift>=1.15.0",
-    "opentelemetry-exporter-prometheus>=0.36b0",
-    "opentelemetry-instrumentation-aiohttp-client>=0.36b0",
+    "aiohttp>=3.8.0,<4.0.0",
+    "aiofiles>=23.0.0,<26.0.0",
+    "aiolimiter>=1.0.0,<2.0.0",
+    "tenacity>=8.0.0,<10.0.0",
+    "pandas>=1.5.0,<3.0.0",
+    "pyarrow>=10.0.0,<22.0.0",
+    "numpy>=1.20.0,<3.0.0",
+    "pydantic>=2.0.0,<3.0.0",
+    "pyyaml>=6.0,<7.0",
+    "click>=8.0.0,<9.0.0",
+    "typer>=0.9.0,<1.0.0",
+    "cookiecutter>=2.1.0,<3.0.0",
+    "opentelemetry-api>=1.15.0,<2.0.0",
+    "opentelemetry-sdk>=1.15.0,<2.0.0",
+    "opentelemetry-exporter-jaeger-thrift>=1.15.0,<2.0.0",
+    "opentelemetry-exporter-prometheus>=0.36b0,<1.0.0",
+    "opentelemetry-instrumentation-aiohttp-client>=0.36b0,<1.0.0",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0.0",
-    "pytest-asyncio>=0.21.0",
-    "pytest-mock>=3.10.0",
-    "ruff>=0.1.0",
+    "pytest>=7.0.0,<9.0.0",
+    "pytest-asyncio>=0.21.0,<1.0.0",
+    "pytest-mock>=3.10.0,<4.0.0",
+    "pytest-cov>=4.0.0,<6.0.0",
+    "ruff>=0.1.0,<1.0.0",
 ]
 
 [project.urls]
-Homepage = "https://github.com/pydhis2/pydhis2"
-Documentation = "https://pydhis2.readthedocs.io"
-Repository = "https://github.com/pydhis2/pydhis2"
-Issues = "https://github.com/pydhis2/pydhis2/issues"
+Homepage = "https://github.com/HzaCode/pydhis2"
+Documentation = "https://hzacode.github.io/pydhis2"
+Repository = "https://github.com/HzaCode/pydhis2"
+Issues = "https://github.com/HzaCode/pydhis2/issues"
+Changelog = "https://github.com/HzaCode/pydhis2/blob/main/CHANGELOG.md"
+Discussions = "https://github.com/HzaCode/pydhis2/discussions"
 
 [project.scripts]
 pydhis2 = "pydhis2.__main__:main"
