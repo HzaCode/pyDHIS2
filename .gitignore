@@ -139,3 +139,6 @@ dmypy.json
 # OS files
 .DS_Store
 Thumbs.db
+
+# Test environments
+test_pypi_env/
