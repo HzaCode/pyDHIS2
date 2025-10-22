@@ -200,13 +200,13 @@ jobs:
           # Build the docs
           mkdocs build
       
-      - name: 🚀 Deploy to gh branch
+      - name: 🚀 Deploy to gh-pages branch
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./site
-          publish_branch: gh
+          publish_branch: gh-pages
           force_orphan: true
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
