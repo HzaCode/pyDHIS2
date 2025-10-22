@@ -28,187 +28,24 @@ jobs:
       - name: 📦 Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install mkdocs mkdocs-material mkdocstrings[python] mkdocs-gen-files mkdocs-literate-nav
+          pip install -r docs/requirements.txt
+          pip install -e .
       
-      - name: 📚 Build documentation
+      - name: 📚 Build documentation with Sphinx
         run: |
-          # Create docs directory if it doesn't exist
-          mkdir -p docs
-          
-          # Copy README as index
-          cp README.md docs/index.md
-          
-          # Create basic documentation structure
-          cat > mkdocs.yml << 'EOF'
-          site_name: pydhis2 Documentation
-          site_description: A Modern Python SDK for DHIS2
-          site_author: pydhis2 contributors
-          site_url: https://hzacode.github.io/pydhis2
-          repo_url: https://github.com/HzaCode/pydhis2
-          repo_name: HzaCode/pydhis2
-          
-          theme:
-            name: material
-            palette:
-              - scheme: default
-                primary: blue
-                accent: indigo
-                toggle:
-                  icon: material/brightness-7
-                  name: Switch to dark mode
-              - scheme: slate
-                primary: blue
-                accent: indigo
-                toggle:
-                  icon: material/brightness-4
-                  name: Switch to light mode
-            features:
-              - navigation.instant
-              - navigation.tracking
-              - navigation.tabs
-              - navigation.sections
-              - navigation.expand
-              - navigation.top
-              - search.suggest
-              - search.highlight
-              - content.code.copy
-          
-          nav:
-            - Home: index.md
-            - Getting Started: getting-started.md
-            - User Guide: user-guide.md
-            - API Reference: api-reference.md
-            - Contributing: contributing.md
-            - Changelog: changelog.md
-          
-          markdown_extensions:
-            - pymdownx.highlight:
-                anchor_linenums: true
-            - pymdownx.inlinehilite
-            - pymdownx.snippets
-            - pymdownx.superfences
-            - pymdownx.tabbed:
-                alternate_style: true
-            - admonition
-            - pymdownx.details
-            - attr_list
-            - md_in_html
-            - tables
-          
-          plugins:
-            - search
-            - mkdocstrings:
-                handlers:
-                  python:
-                    options:
-                      docstring_style: google
-                      show_source: true
-          EOF
-          
-          # Create additional doc pages
-          cat > docs/getting-started.md << 'EOF'
-          # Getting Started
-          
-          ## Installation
-          
-          Install pydhis2 from PyPI:
-          
-          \`\`\`bash
-          pip install pydhis2
-          \`\`\`
-          
-          ## Quick Start
-          
-          \`\`\`python
-          import asyncio
-          from pydhis2 import get_client, DHIS2Config
-          from pydhis2.core.types import AnalyticsQuery
-          
-          AsyncDHIS2Client, _ = get_client()
-          
-          async def main():
-              config = DHIS2Config(
-                  base_url="https://play.dhis2.org/demo",
-                  auth=("admin", "district")
-              )
-              
-              async with AsyncDHIS2Client(config) as client:
-                  query = AnalyticsQuery(
-                      dx=["fbfJHSPpUQD"],
-                      ou="ImspTQPwCqd",
-                      pe="2023"
-                  )
-                  df = await client.analytics.to_pandas(query)
-                  print(df)
-          
-          if __name__ == "__main__":
-              asyncio.run(main())
-          \`\`\`
-          
-          See the [README](index.md) for more examples.
-          EOF
-          
-          cat > docs/user-guide.md << 'EOF'
-          # User Guide
-          
-          ## Analytics
-          
-          Query analytics data and convert to pandas DataFrames.
-          
-          ## DataValueSets
-          
-          Import and export data values.
-          
-          ## Tracker
-          
-          Work with tracker events and entities.
-          
-          ## Metadata
-          
-          Export and import DHIS2 metadata.
-          
-          ## Data Quality Review
-          
-          Assess data quality using WHO-DQR metrics.
-          
-          For detailed examples, see the [examples](https://github.com/HzaCode/pydhis2/tree/main/examples) directory.
-          EOF
-          
-          cat > docs/api-reference.md << 'EOF'
-          # API Reference
-          
-          ## Core Client
-          
-          ::: pydhis2.core.client.AsyncDHIS2Client
-          
-          ## Configuration
-          
-          ::: pydhis2.core.types.DHIS2Config
-          
-          ## Analytics
-          
-          ::: pydhis2.endpoints.analytics.AnalyticsEndpoint
-          
-          ## Query Types
-          
-          ::: pydhis2.core.types.AnalyticsQuery
-          EOF
-          
-          cp CONTRIBUTING.md docs/contributing.md
-          cp CHANGELOG.md docs/changelog.md
-          
-          # Build the docs
-          mkdocs build
+          cd docs
+          sphinx-build -b html . _build/html
+          cd ..
       
       - name: 🚀 Deploy to gh-pages branch
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
+          publish_dir: ./docs/_build/html
           publish_branch: gh-pages
           force_orphan: true
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
-          commit_message: 'Deploy docs from main branch'
+          commit_message: 'Deploy Sphinx docs from main branch'
 

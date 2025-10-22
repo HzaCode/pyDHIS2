@@ -10,8 +10,8 @@ authors:
   - family-names: "pydhis2 contributors"
     affiliation: "pydhis2 Project"
 
-repository-code: "https://github.com/HzaCode/pydhis2"
-url: "https://github.com/HzaCode/pydhis2"
+repository-code: "https://github.com/HzaCode/pyDHIS2"
+url: "https://github.com/HzaCode/pyDHIS2"
 license: Apache-2.0
 
 keywords:
@@ -33,6 +33,6 @@ preferred-citation:
       affiliation: "pydhis2 Project"
   version: 0.2.0
   year: 2025
-  url: "https://github.com/HzaCode/pydhis2"
+  url: "https://github.com/HzaCode/pyDHIS2"
   license: Apache-2.0
 

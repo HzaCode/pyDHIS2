@@ -23,11 +23,11 @@
     <img src="https://img.shields.io/pepy/dt/pydhis2?style=flat&color=blue" alt="Downloads">
   </a>
   <!-- Test Passing -->
-  <a href="https://github.com/HzaCode/pydhis2/actions/workflows/ci.yml">
+  <a href="https://github.com/HzaCode/pyDHIS2/actions/workflows/ci.yml">
     <img src="https://img.shields.io/badge/tests-passing-brightgreen?style=flat" alt="Tests">
   </a>
   <!-- Docs Passing -->
-  <a href="https://hzacode.github.io/pydhis2">
+  <a href="https://hzacode.github.io/pyDHIS2">
     <img src="https://img.shields.io/badge/docs-passing-brightgreen?style=flat" alt="Docs">
   </a>
   <!-- License -->
@@ -193,7 +193,7 @@ Beyond being a library, `pydhis2` promotes a standardized workflow that is essen
     Point Cookiecutter to the `pydhis2` template. It will prompt you for project details.
 
     ```bash
-    cookiecutter gh:HzaCode/pydhis2 --directory pydhis2/templates
+    cookiecutter gh:HzaCode/pyDHIS2 --directory pydhis2/templates
     ```
 
     You'll be prompted for details like your project name and author:
@@ -256,10 +256,10 @@ Please see our [**Contributing Guide**](CONTRIBUTING.md) for details on how to g
 
 ## 📞 Community & Support
 
-*   📖 **[Documentation](https://hzacode.github.io/pydhis2)**: For in-depth guides and API references.
-*   🐛 **[GitHub Issues](https://github.com/HzaCode/pydhis2/issues)**: To report bugs or request new features.
-*   💬 **[GitHub Discussions](https://github.com/HzaCode/pydhis2/discussions)**: For questions, ideas, and community conversation.
-*   📝 **[Changelog](https://github.com/HzaCode/pydhis2/blob/main/CHANGELOG.md)**: Version history and release notes.
+*   📖 **[Documentation](https://hzacode.github.io/pyDHIS2)**: For in-depth guides and API references.
+*   🐛 **[GitHub Issues](https://github.com/HzaCode/pyDHIS2/issues)**: To report bugs or request new features.
+*   💬 **[GitHub Discussions](https://github.com/HzaCode/pyDHIS2/discussions)**: For questions, ideas, and community conversation.
+*   📝 **[Changelog](https://github.com/HzaCode/pyDHIS2/blob/main/CHANGELOG.md)**: Version history and release notes.
 
 ## 📄 License
 

@@ -57,12 +57,12 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/HzaCode/pydhis2"
-Documentation = "https://hzacode.github.io/pydhis2"
-Repository = "https://github.com/HzaCode/pydhis2"
-Issues = "https://github.com/HzaCode/pydhis2/issues"
-Changelog = "https://github.com/HzaCode/pydhis2/blob/main/CHANGELOG.md"
-Discussions = "https://github.com/HzaCode/pydhis2/discussions"
+Homepage = "https://github.com/HzaCode/pyDHIS2"
+Documentation = "https://hzacode.github.io/pyDHIS2"
+Repository = "https://github.com/HzaCode/pyDHIS2"
+Issues = "https://github.com/HzaCode/pyDHIS2/issues"
+Changelog = "https://github.com/HzaCode/pyDHIS2/blob/main/CHANGELOG.md"
+Discussions = "https://github.com/HzaCode/pyDHIS2/discussions"
 
 [project.scripts]
 pydhis2 = "pydhis2.__main__:main"
