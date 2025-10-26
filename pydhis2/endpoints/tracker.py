@@ -1,22 +1,23 @@
 """Tracker endpoint - Event and entity queries and management"""
 
-from typing import Any, Dict, Optional, AsyncIterator
+from collections.abc import AsyncIterator
+from typing import Any, Dict, Optional
 
 import pandas as pd
 
 from pydhis2.core.types import ExportFormat
-from pydhis2.io.to_pandas import TrackerConverter
 from pydhis2.io.arrow import ArrowConverter
+from pydhis2.io.to_pandas import TrackerConverter
 
 
 class TrackerEndpoint:
     """Tracker API endpoint"""
-    
+
     def __init__(self, client):
         self.client = client
         self.converter = TrackerConverter()
         self.arrow_converter = ArrowConverter()
-    
+
     async def events(
         self,
         program: Optional[str] = None,
@@ -42,11 +43,11 @@ class TrackerEndpoint:
             'skipMeta': str(skip_meta).lower(),
             'ouMode': org_unit_mode,
         }
-        
+
         if program:
             params['program'] = program
         if org_unit:
-            params['orgUnit'] = org_unit  
+            params['orgUnit'] = org_unit
         if status:
             params['status'] = status
         if program_stage:
@@ -59,12 +60,12 @@ class TrackerEndpoint:
             params['lastUpdatedStartDate'] = last_updated_start_date
         if last_updated_end_date:
             params['lastUpdatedEndDate'] = last_updated_end_date
-        
+
         # Add other parameters
         params.update(kwargs)
-        
+
         return await self.client.get('/api/tracker/events', params=params)
-    
+
     async def events_to_pandas(
         self,
         program: Optional[str] = None,
@@ -78,12 +79,12 @@ class TrackerEndpoint:
         """Get event data and convert to DataFrame"""
         all_events = []
         page = 1
-        
+
         while True:
             # Set date parameters
             if since:
                 kwargs['lastUpdatedStartDate'] = since
-            
+
             response = await self.events(
                 program=program,
                 org_unit=org_unit,
@@ -93,27 +94,27 @@ class TrackerEndpoint:
                 total_pages=True,
                 **kwargs
             )
-            
+
             events = response.get('instances', [])
             if not events:
                 break
-            
+
             all_events.extend(events)
-            
+
             # Check pagination
             pager = response.get('page', {})
             total_pages = pager.get('pageCount', 1)
-            
+
             if page >= total_pages:
                 break
-            
+
             if max_pages and page >= max_pages:
                 break
-            
+
             page += 1
-        
+
         return self.converter.events_to_dataframe(all_events)
-    
+
     async def tracked_entities(
         self,
         org_unit: Optional[str] = None,
@@ -136,7 +137,7 @@ class TrackerEndpoint:
             'ouMode': org_unit_mode,
             'fields': fields,
         }
-        
+
         if org_unit:
             params['orgUnit'] = org_unit
         if program:
@@ -147,11 +148,11 @@ class TrackerEndpoint:
             params['lastUpdatedStartDate'] = last_updated_start_date
         if last_updated_end_date:
             params['lastUpdatedEndDate'] = last_updated_end_date
-        
+
         params.update(kwargs)
-        
+
         return await self.client.get('/api/tracker/trackedEntities', params=params)
-    
+
     async def tracked_entities_to_pandas(
         self,
         org_unit: Optional[str] = None,
@@ -164,11 +165,11 @@ class TrackerEndpoint:
         """Get tracked entity data and convert to DataFrame"""
         all_entities = []
         page = 1
-        
+
         while True:
             if since:
                 kwargs['lastUpdatedStartDate'] = since
-            
+
             response = await self.tracked_entities(
                 org_unit=org_unit,
                 program=program,
@@ -177,27 +178,27 @@ class TrackerEndpoint:
                 total_pages=True,
                 **kwargs
             )
-            
+
             entities = response.get('instances', [])
             if not entities:
                 break
-            
+
             all_entities.extend(entities)
-            
+
             # Check pagination
             pager = response.get('page', {})
             total_pages = pager.get('pageCount', 1)
-            
+
             if page >= total_pages:
                 break
-            
+
             if max_pages and page >= max_pages:
                 break
-            
+
             page += 1
-        
+
         return self.converter.tracked_entities_to_dataframe(all_entities)
-    
+
     async def stream_events(
         self,
         program: Optional[str] = None,
@@ -208,7 +209,7 @@ class TrackerEndpoint:
     ) -> AsyncIterator[pd.DataFrame]:
         """Stream event data"""
         page = 1
-        
+
         while True:
             response = await self.events(
                 program=program,
@@ -218,48 +219,48 @@ class TrackerEndpoint:
                 total_pages=True,
                 **kwargs
             )
-            
+
             events = response.get('instances', [])
             if not events:
                 break
-            
+
             df = self.converter.events_to_dataframe(events)
             if not df.empty:
                 yield df
-            
+
             # Check pagination
             pager = response.get('page', {})
             total_pages = pager.get('pageCount', 1)
-            
+
             if page >= total_pages:
                 break
-            
+
             if max_pages and page >= max_pages:
                 break
-            
+
             page += 1
-    
+
     async def get_event(self, event_id: str) -> Dict[str, Any]:
         """Get a single event"""
         return await self.client.get(f'/api/tracker/events/{event_id}')
-    
+
     async def get_tracked_entity(self, entity_id: str) -> Dict[str, Any]:
         """Get a single tracked entity"""
         return await self.client.get(f'/api/tracker/trackedEntities/{entity_id}')
-    
+
     async def create_event(self, event_data: Dict[str, Any]) -> Dict[str, Any]:
         """Create an event"""
         payload = {'events': [event_data]}
         return await self.client.post('/api/tracker', data=payload)
-    
+
     async def update_event(self, event_id: str, event_data: Dict[str, Any]) -> Dict[str, Any]:
         """Update an event"""
         return await self.client.put(f'/api/tracker/events/{event_id}', data=event_data)
-    
+
     async def delete_event(self, event_id: str) -> Dict[str, Any]:
         """Delete an event"""
         return await self.client.delete(f'/api/tracker/events/{event_id}')
-    
+
     async def export_events_to_file(
         self,
         file_path: str,
@@ -268,7 +269,7 @@ class TrackerEndpoint:
     ) -> str:
         """Export events to file"""
         df = await self.events_to_pandas(**query_kwargs)
-        
+
         if format == ExportFormat.PARQUET:
             df.to_parquet(file_path)
         elif format == ExportFormat.CSV:
@@ -281,9 +282,9 @@ class TrackerEndpoint:
             df.to_json(file_path, orient='records')
         else:
             raise ValueError(f"Unsupported export format: {format}")
-        
+
         return file_path
-    
+
     async def export_tracked_entities_to_file(
         self,
         file_path: str,
@@ -292,7 +293,7 @@ class TrackerEndpoint:
     ) -> str:
         """Export tracked entities to file"""
         df = await self.tracked_entities_to_pandas(**query_kwargs)
-        
+
         if format == ExportFormat.PARQUET:
             df.to_parquet(file_path)
         elif format == ExportFormat.CSV:
@@ -305,5 +306,5 @@ class TrackerEndpoint:
             df.to_json(file_path, orient='records')
         else:
             raise ValueError(f"Unsupported export format: {format}")
-        
+
         return file_path

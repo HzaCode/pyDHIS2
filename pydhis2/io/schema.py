@@ -1,9 +1,9 @@
 """Schema manager - Handles data structure differences across DHIS2 versions"""
 
-from typing import Any, Dict, List, Optional
+import logging
 from dataclasses import dataclass, field
 from enum import Enum
-import logging
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -44,18 +44,18 @@ class EndpointSchema:
 
 class SchemaManager:
     """Schema manager"""
-    
+
     def __init__(self):
         self.schemas: Dict[str, Dict[DHIS2Version, EndpointSchema]] = {}
         self._init_default_schemas()
-    
+
     def _init_default_schemas(self) -> None:
         """Initialize default Schemas"""
         self._init_analytics_schemas()
         self._init_datavaluesets_schemas()
         self._init_tracker_schemas()
         self._init_metadata_schemas()
-    
+
     def _init_analytics_schemas(self) -> None:
         """Initialize Analytics Schema"""
         # Common Analytics field mapping
@@ -67,13 +67,13 @@ class SchemaManager:
             FieldMapping("ao", "attributeOptionCombo", "string"),
             FieldMapping("value", "value", "float"),
         ]
-        
+
         analytics_schemas = {}
-        
+
         for version in DHIS2Version:
             if version == DHIS2Version.UNKNOWN:
                 continue
-            
+
             schema = EndpointSchema(
                 endpoint="analytics",
                 version=version,
@@ -92,19 +92,19 @@ class SchemaManager:
                     "total": "total"
                 }
             )
-            
+
             # Version-specific adjustments
             if version in [DHIS2Version.V2_36, DHIS2Version.V2_37]:
                 # Older versions may not have some fields
                 schema.field_mappings.append(
-                    FieldMapping("lastUpdated", "lastUpdated", "datetime", 
+                    FieldMapping("lastUpdated", "lastUpdated", "datetime",
                                version_introduced=DHIS2Version.V2_38)
                 )
-            
+
             analytics_schemas[version] = schema
-        
+
         self.schemas["analytics"] = analytics_schemas
-    
+
     def _init_datavaluesets_schemas(self) -> None:
         """Initialize DataValueSets Schema"""
         common_dvs_fields = [
@@ -120,13 +120,13 @@ class SchemaManager:
             FieldMapping("comment", "comment", "string"),
             FieldMapping("followup", "followup", "boolean"),
         ]
-        
+
         dvs_schemas = {}
-        
+
         for version in DHIS2Version:
             if version == DHIS2Version.UNKNOWN:
                 continue
-            
+
             schema = EndpointSchema(
                 endpoint="dataValueSets",
                 version=version,
@@ -136,11 +136,11 @@ class SchemaManager:
                     "completeDataSetRegistrations": "array"
                 }
             )
-            
+
             dvs_schemas[version] = schema
-        
+
         self.schemas["dataValueSets"] = dvs_schemas
-    
+
     def _init_tracker_schemas(self) -> None:
         """Initialize Tracker Schema"""
         tracker_event_fields = [
@@ -156,13 +156,13 @@ class SchemaManager:
             FieldMapping("updatedAt", "updatedAt", "datetime"),
             FieldMapping("dataValues", "dataValues", "array"),
         ]
-        
+
         tracker_schemas = {}
-        
+
         for version in DHIS2Version:
             if version == DHIS2Version.UNKNOWN:
                 continue
-            
+
             schema = EndpointSchema(
                 endpoint="tracker/events",
                 version=version,
@@ -178,23 +178,23 @@ class SchemaManager:
                     "total": "total"
                 }
             )
-            
+
             # Version-specific adjustments
             if version in [DHIS2Version.V2_36, DHIS2Version.V2_37]:
                 # Older versions use different field names
                 schema.field_mappings = [
-                    fm for fm in schema.field_mappings 
+                    fm for fm in schema.field_mappings
                     if fm.source_field not in ["occurredAt", "scheduledAt"]
                 ]
                 schema.field_mappings.extend([
                     FieldMapping("eventDate", "occurredAt", "datetime"),
                     FieldMapping("dueDate", "scheduledAt", "datetime"),
                 ])
-            
+
             tracker_schemas[version] = schema
-        
+
         self.schemas["tracker"] = tracker_schemas
-    
+
     def _init_metadata_schemas(self) -> None:
         """Initialize Metadata Schema"""
         metadata_fields = [
@@ -204,13 +204,13 @@ class SchemaManager:
             FieldMapping("lastUpdated", "lastUpdated", "datetime"),
             FieldMapping("created", "created", "datetime"),
         ]
-        
+
         metadata_schemas = {}
-        
+
         for version in DHIS2Version:
             if version == DHIS2Version.UNKNOWN:
                 continue
-            
+
             schema = EndpointSchema(
                 endpoint="metadata",
                 version=version,
@@ -224,11 +224,11 @@ class SchemaManager:
                     "optionSets": "array",
                 }
             )
-            
+
             metadata_schemas[version] = schema
-        
+
         self.schemas["metadata"] = metadata_schemas
-    
+
     def get_schema(
         self,
         endpoint: str,
@@ -238,9 +238,9 @@ class SchemaManager:
         endpoint_schemas = self.schemas.get(endpoint)
         if not endpoint_schemas:
             return None
-        
+
         return endpoint_schemas.get(version)
-    
+
     def get_field_mapping(
         self,
         endpoint: str,
@@ -250,9 +250,9 @@ class SchemaManager:
         schema = self.get_schema(endpoint, version)
         if not schema:
             return {}
-        
+
         return {fm.source_field: fm for fm in schema.field_mappings}
-    
+
     def transform_response(
         self,
         data: Dict[str, Any],
@@ -264,11 +264,11 @@ class SchemaManager:
         if not schema:
             logger.warning(f"No schema found for {endpoint} version {version}")
             return data
-        
+
         # Apply field mappings
         transformed_data = {}
         field_mappings = self.get_field_mapping(endpoint, version)
-        
+
         for key, value in data.items():
             if key in field_mappings:
                 mapping = field_mappings[key]
@@ -277,9 +277,9 @@ class SchemaManager:
                 )
             else:
                 transformed_data[key] = value
-        
+
         return transformed_data
-    
+
     def _transform_value(
         self,
         value: Any,
@@ -289,7 +289,7 @@ class SchemaManager:
         """Transform a single value"""
         if value is None:
             return None
-        
+
         # Apply custom transform function
         if transform_func:
             try:
@@ -305,7 +305,7 @@ class SchemaManager:
             except (ValueError, TypeError):
                 logger.warning(f"Failed to apply transform {transform_func} to {value}")
                 return value
-        
+
         # Default type conversion
         try:
             if data_type == "float":
@@ -321,18 +321,18 @@ class SchemaManager:
                 return str(value) if value is not None else None
         except (ValueError, TypeError):
             return value
-    
+
     def detect_version(self, response: Dict[str, Any]) -> DHIS2Version:
         """Detect DHIS2 version from response"""
         # Check system info
         if "system" in response:
             system_info = response["system"]
             version_str = system_info.get("version", "")
-            
+
             for version in DHIS2Version:
                 if version.value in version_str:
                     return version
-        
+
         # Infer version based on response structure
         if "instances" in response:
             # New Tracker API
@@ -340,10 +340,10 @@ class SchemaManager:
         elif "events" in response and isinstance(response["events"], list):
             # Old Tracker API
             return DHIS2Version.V2_36
-        
+
         # Default to latest version
         return DHIS2Version.V2_41
-    
+
     def validate_data(
         self,
         data: Dict[str, Any],
@@ -354,24 +354,24 @@ class SchemaManager:
         schema = self.get_schema(endpoint, version)
         if not schema:
             return ["Schema not found"]
-        
+
         errors = []
         field_mappings = self.get_field_mapping(endpoint, version)
-        
+
         # Check required fields
         for mapping in schema.field_mappings:
             if mapping.required and mapping.source_field not in data:
                 errors.append(f"Missing required field: {mapping.source_field}")
-        
+
         # Check data types (simple validation)
         for key, value in data.items():
             if key in field_mappings and value is not None:
                 mapping = field_mappings[key]
                 if not self._validate_type(value, mapping.data_type):
                     errors.append(f"Invalid type for {key}: expected {mapping.data_type}")
-        
+
         return errors
-    
+
     def _validate_type(self, value: Any, expected_type: str) -> bool:
         """Validate value type"""
         if expected_type == "string":

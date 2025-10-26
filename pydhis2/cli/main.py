@@ -1,7 +1,8 @@
 """CLI main entry point"""
 
-import typer
 from typing import Optional
+
+import typer
 from rich.console import Console
 
 app = typer.Typer(
@@ -28,18 +29,18 @@ def config(
 ):
     """Configure DHIS2 connection information"""
     import os
-    
+
     # Get default values from environment variables
     if not username:
         username = os.getenv("DHIS2_USERNAME")
     if not password:
         password = os.getenv("DHIS2_PASSWORD")
-    
+
     if not username:
         username = typer.prompt("Username")
     if not password:
         password = typer.prompt("Password", hide_input=True)
-    
+
     # Save to secure storage (simplified for now)
     console.print(f"✓ Configured connection to {url}")
     console.print("📝 Tip: Consider using environment variables for authentication")
@@ -67,7 +68,7 @@ def analytics_pull(
     console.print(f"💾 Would save to: {output} ({format})")
 
 
-# DataValueSets commands  
+# DataValueSets commands
 datavaluesets_app = typer.Typer(help="DataValueSets operations")
 app.add_typer(datavaluesets_app, name="datavaluesets")
 
@@ -152,17 +153,17 @@ def demo_quick():
     import subprocess
     import sys
     from pathlib import Path
-    
+
     # Find the quick_demo.py script
     script_path = Path.cwd() / "examples" / "quick_demo.py"
     if not script_path.exists():
         console.print("examples/quick_demo.py not found in current directory")
         console.print("Make sure you're in the pydhis2 project directory")
         return
-    
+
     console.print("Running pydhis2 Quick Demo...")
     try:
-        result = subprocess.run([sys.executable, str(script_path)], 
+        result = subprocess.run([sys.executable, str(script_path)],
                               capture_output=False, text=True)
         if result.returncode != 0:
             console.print("Demo failed")
@@ -176,16 +177,16 @@ def demo_test():
     import subprocess
     import sys
     from pathlib import Path
-    
+
     script_path = Path.cwd() / "examples" / "demo_test.py"
     if not script_path.exists():
         console.print("examples/demo_test.py not found in current directory")
         console.print("Make sure you're in the pydhis2 project directory")
         return
-    
+
     console.print("Running pydhis2 Comprehensive Test Demo...")
     try:
-        result = subprocess.run([sys.executable, str(script_path)], 
+        result = subprocess.run([sys.executable, str(script_path)],
                               capture_output=False, text=True)
         if result.returncode != 0:
             console.print("Test demo failed")
@@ -199,16 +200,16 @@ def demo_health():
     import subprocess
     import sys
     from pathlib import Path
-    
+
     script_path = Path.cwd() / "examples" / "real_health_data_demo.py"
     if not script_path.exists():
         console.print("examples/real_health_data_demo.py not found in current directory")
         console.print("Make sure you're in the pydhis2 project directory")
         return
-    
+
     console.print("Running pydhis2 Health Data Analysis Demo...")
     try:
-        result = subprocess.run([sys.executable, str(script_path)], 
+        result = subprocess.run([sys.executable, str(script_path)],
                               capture_output=False, text=True)
         if result.returncode != 0:
             console.print("Health demo failed")
@@ -222,16 +223,16 @@ def demo_analysis():
     import subprocess
     import sys
     from pathlib import Path
-    
+
     script_path = Path.cwd() / "examples" / "my_analysis.py"
     if not script_path.exists():
         console.print("examples/my_analysis.py not found in current directory")
         console.print("Make sure you're in the pydhis2 project directory")
         return
-    
+
     console.print("Running pydhis2 Custom Analysis Demo...")
     try:
-        result = subprocess.run([sys.executable, str(script_path)], 
+        result = subprocess.run([sys.executable, str(script_path)],
                               capture_output=False, text=True)
         if result.returncode != 0:
             console.print("Analysis demo failed")

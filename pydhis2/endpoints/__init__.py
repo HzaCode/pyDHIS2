@@ -2,12 +2,12 @@
 
 from pydhis2.endpoints.analytics import AnalyticsEndpoint
 from pydhis2.endpoints.datavaluesets import DataValueSetsEndpoint
-from pydhis2.endpoints.tracker import TrackerEndpoint
 from pydhis2.endpoints.metadata import MetadataEndpoint
+from pydhis2.endpoints.tracker import TrackerEndpoint
 
 __all__ = [
     "AnalyticsEndpoint",
-    "DataValueSetsEndpoint", 
+    "DataValueSetsEndpoint",
     "TrackerEndpoint",
     "MetadataEndpoint",
 ]

@@ -9,14 +9,14 @@ An async-first DHIS2 Python SDK with built-in rate limiting and retry mechanisms
 """
 
 # Core types can be imported directly
-from pydhis2.core.types import DHIS2Config
 from pydhis2.core.errors import (
     DHIS2Error,
     DHIS2HTTPError,
+    ImportConflictError,
     RateLimitExceeded,
     RetryExhausted,
-    ImportConflictError,
 )
+from pydhis2.core.types import DHIS2Config
 
 
 # Lazy import to avoid circular dependencies

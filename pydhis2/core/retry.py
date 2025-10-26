@@ -3,17 +3,17 @@
 import asyncio
 import random
 import time
-from typing import Any, Callable, Dict, List, Optional, Set, Type
-from dataclasses import dataclass, field
 from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from typing import Any, Callable, Dict, List, Optional, Set, Type
 
 import aiohttp
 from tenacity import (
     AsyncRetrying,
+    retry_if_exception_type,
     stop_after_attempt,
     wait_exponential,
     wait_fixed,
-    retry_if_exception_type,
 )
 
 from pydhis2.core.errors import RetryExhausted
@@ -28,7 +28,7 @@ class RetryAttempt:
     exception: Optional[Exception] = None
     response_status: Optional[int] = None
     wait_time: Optional[float] = None
-    
+
     @property
     def duration(self) -> Optional[float]:
         """Attempt duration"""
@@ -58,7 +58,7 @@ class RetryConfig:
 
 class RetryStrategy(ABC):
     """Retry strategy abstract base class"""
-    
+
     @abstractmethod
     def calculate_wait_time(
         self,
@@ -74,7 +74,7 @@ class RetryStrategy(ABC):
 
 class ExponentialBackoffStrategy(RetryStrategy):
     """Exponential backoff strategy"""
-    
+
     def calculate_wait_time(
         self,
         attempt: int,
@@ -87,17 +87,17 @@ class ExponentialBackoffStrategy(RetryStrategy):
         # Exponential backoff: base_delay * (backoff_factor ^ (attempt - 1))
         wait_time = base_delay * (backoff_factor ** (attempt - 1))
         wait_time = min(wait_time, max_delay)
-        
+
         if jitter:
             # Full jitter: random value between 0 and the calculated value
             wait_time = random.uniform(0, wait_time)
-        
+
         return wait_time
 
 
 class LinearBackoffStrategy(RetryStrategy):
     """Linear backoff strategy"""
-    
+
     def calculate_wait_time(
         self,
         attempt: int,
@@ -109,19 +109,19 @@ class LinearBackoffStrategy(RetryStrategy):
         """Calculate linear backoff wait time"""
         wait_time = base_delay * attempt
         wait_time = min(wait_time, max_delay)
-        
+
         if jitter:
             # Add ±25% jitter
             jitter_range = wait_time * 0.25
             wait_time += random.uniform(-jitter_range, jitter_range)
             wait_time = max(0, wait_time)
-        
+
         return wait_time
 
 
 class FixedDelayStrategy(RetryStrategy):
     """Fixed delay strategy"""
-    
+
     def calculate_wait_time(
         self,
         attempt: int,
@@ -132,19 +132,19 @@ class FixedDelayStrategy(RetryStrategy):
     ) -> float:
         """Calculate fixed delay wait time"""
         wait_time = base_delay
-        
+
         if jitter:
             # Add ±50% jitter
             jitter_range = wait_time * 0.5
             wait_time += random.uniform(-jitter_range, jitter_range)
             wait_time = max(0, wait_time)
-        
+
         return wait_time
 
 
 class RetryManager:
     """Retry manager"""
-    
+
     def __init__(self, config: RetryConfig):
         self.config = config
         self.strategies = {
@@ -153,13 +153,13 @@ class RetryManager:
             'fixed': FixedDelayStrategy(),
         }
         self.default_strategy = self.strategies['exponential']
-        
+
         # Statistics
         self.total_attempts = 0
         self.total_retries = 0
         self.total_wait_time = 0.0
         self.attempts_by_status: Dict[int, int] = {}
-    
+
     def should_retry(
         self,
         attempt: int,
@@ -169,29 +169,29 @@ class RetryManager:
         """Determine if a retry should be attempted"""
         if attempt >= self.config.max_attempts:
             return False
-        
+
         # Check exception type
         if exception:
             return any(
                 isinstance(exception, exc_type)
                 for exc_type in self.config.retry_on_exceptions
             )
-        
+
         # Check HTTP status code
         if response:
             return response.status in self.config.retry_on_status
-        
+
         return False
-    
+
     def extract_retry_after(self, response: Optional[aiohttp.ClientResponse]) -> Optional[float]:
         """Extract Retry-After header information"""
         if not response or not self.config.respect_retry_after:
             return None
-        
+
         retry_after = response.headers.get('Retry-After')
         if not retry_after:
             return None
-        
+
         try:
             # Try to parse as seconds
             seconds = float(retry_after)
@@ -199,7 +199,7 @@ class RetryManager:
         except ValueError:
             # Try to parse as HTTP date (simplified implementation, not currently supported)
             return None
-    
+
     def calculate_wait_time(
         self,
         attempt: int,
@@ -209,7 +209,7 @@ class RetryManager:
         """Calculate wait time"""
         if retry_after is not None:
             return retry_after
-        
+
         strategy_impl = self.strategies.get(strategy, self.default_strategy)
         return strategy_impl.calculate_wait_time(
             attempt=attempt,
@@ -218,7 +218,7 @@ class RetryManager:
             backoff_factor=self.config.backoff_factor,
             jitter=self.config.jitter
         )
-    
+
     async def execute_with_retry(
         self,
         func: Callable,
@@ -228,7 +228,7 @@ class RetryManager:
     ) -> Any:
         """Execute a function with retry when needed"""
         attempts: List[RetryAttempt] = []
-        
+
         for attempt in range(1, self.config.max_attempts + 1):
             self.total_attempts += 1
             attempt_record = RetryAttempt(
@@ -236,27 +236,27 @@ class RetryManager:
                 start_time=time.time()
             )
             attempts.append(attempt_record)
-            
+
             try:
                 result = await func(*args, **kwargs)
                 attempt_record.end_time = time.time()
-                
+
                 # Check if the result requires a retry
                 if hasattr(result, 'status'):
                     attempt_record.response_status = result.status
                     self.attempts_by_status[result.status] = (
                         self.attempts_by_status.get(result.status, 0) + 1
                     )
-                    
+
                     if not self.should_retry(attempt, response=result):
                         return result
                 else:
                     return result
-                
+
             except Exception as e:
                 attempt_record.end_time = time.time()
                 attempt_record.exception = e
-                
+
                 # If it's the last attempt, raise the RetryExhausted exception
                 if attempt == self.config.max_attempts:
                     raise RetryExhausted(
@@ -273,24 +273,24 @@ class RetryManager:
                             for a in attempts
                         ]
                     ) from e
-                
+
                 # Check if we should retry
                 if not self.should_retry(attempt, exception=e):
                     raise
-            
+
             # Calculate wait time
             retry_after = None
             if 'result' in locals() and hasattr(result, 'headers'):
                 retry_after = self.extract_retry_after(result)
-            
+
             wait_time = self.calculate_wait_time(attempt, strategy, retry_after)
             attempt_record.wait_time = wait_time
             self.total_wait_time += wait_time
             self.total_retries += 1
-            
+
             # Wait
             await asyncio.sleep(wait_time)
-        
+
         # Should not get here
         raise RetryExhausted(
             max_retries=self.config.max_attempts,
@@ -305,7 +305,7 @@ class RetryManager:
                 for a in attempts
             ]
         )
-    
+
     def get_stats(self) -> Dict[str, Any]:
         """Get retry statistics"""
         return {
@@ -316,7 +316,7 @@ class RetryManager:
             'avg_wait_time': self.total_wait_time / self.total_retries if self.total_retries > 0 else 0,
             'attempts_by_status': self.attempts_by_status,
         }
-    
+
     def reset_stats(self) -> None:
         """Reset statistics"""
         self.total_attempts = 0
@@ -366,7 +366,7 @@ def create_tenacity_retrying(config: RetryConfig, strategy: str = 'exponential')
             multiplier=config.base_delay,
             max=config.max_delay,
         )
-    
+
     return AsyncRetrying(
         stop=stop_after_attempt(config.max_attempts),
         wait=wait_strategy,

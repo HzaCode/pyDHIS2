@@ -3,13 +3,13 @@
 from pydhis2.dqr.metrics import (
     CompletenessMetrics,
     ConsistencyMetrics,
-    TimelinessMetrics,
     MetricResult,
+    TimelinessMetrics,
 )
 
 __all__ = [
     "CompletenessMetrics",
-    "ConsistencyMetrics", 
+    "ConsistencyMetrics",
     "TimelinessMetrics",
     "MetricResult",
 ]

@@ -2,10 +2,11 @@
 
 import asyncio
 import json
-from typing import Any, Dict, List, Optional
-from dataclasses import dataclass
-from aiohttp import web
 import logging
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
+
+from aiohttp import web
 
 logger = logging.getLogger(__name__)
 
@@ -22,33 +23,33 @@ class MockResponse:
 
 class MockDHIS2Server:
     """Mock DHIS2 server for testing client behavior"""
-    
+
     def __init__(self, host: str = "localhost", port: int = 8080):
         self.host = host
         self.port = port
         self.app = web.Application()
         self.runner: Optional[web.AppRunner] = None
         self.site: Optional[web.TCPSite] = None
-        
+
         # Response configurations
         self.responses: Dict[str, MockResponse] = {}
         self.request_log: List[Dict[str, Any]] = []
-        
+
         # Setup default routes
         self._setup_routes()
-    
+
     def _setup_routes(self) -> None:
         """Setup default API routes"""
         self.app.router.add_route("*", "/api/{path:.*}", self._handle_api_request)
         self.app.router.add_route("GET", "/api/me", self._handle_me)
         self.app.router.add_route("GET", "/api/system/info", self._handle_system_info)
-    
+
     async def _handle_api_request(self, request: web.Request) -> web.Response:
         """Handle generic API requests"""
         path = request.match_info.get('path', '')
         method = request.method
         full_path = f"/{method.lower()}/api/{path}"
-        
+
         # Log the request
         self.request_log.append({
             'method': method,
@@ -57,7 +58,7 @@ class MockDHIS2Server:
             'headers': dict(request.headers),
             'timestamp': asyncio.get_event_loop().time()
         })
-        
+
         # Check if we have a configured response
         mock_response = self.responses.get(full_path)
         if not mock_response:
@@ -66,11 +67,11 @@ class MockDHIS2Server:
                 status=200,
                 data={"message": f"Mock response for {full_path}"}
             )
-        
+
         # Simulate delay
         if mock_response.delay > 0:
             await asyncio.sleep(mock_response.delay)
-        
+
         # Handle failure simulation
         if mock_response.fail_count > 0:
             mock_response.fail_count -= 1
@@ -79,17 +80,17 @@ class MockDHIS2Server:
                 text=json.dumps({"error": "Simulated server error"}),
                 headers={'Content-Type': 'application/json'}
             )
-        
+
         # Return configured response
         headers = mock_response.headers or {'Content-Type': 'application/json'}
         response_data = mock_response.data or {}
-        
+
         return web.Response(
             status=mock_response.status,
             text=json.dumps(response_data, ensure_ascii=False),
             headers=headers
         )
-    
+
     async def _handle_me(self, request: web.Request) -> web.Response:
         """Handle /api/me endpoint"""
         return web.json_response({
@@ -99,7 +100,7 @@ class MockDHIS2Server:
             "email": "test@example.com",
             "authorities": ["F_DATAVALUE_ADD", "F_ANALYTICS_READ"]
         })
-    
+
     async def _handle_system_info(self, request: web.Request) -> web.Response:
         """Handle /api/system/info endpoint"""
         return web.json_response({
@@ -108,7 +109,7 @@ class MockDHIS2Server:
             "serverTimeZoneId": "UTC",
             "contextPath": ""
         })
-    
+
     def configure_response(
         self,
         method: str,
@@ -128,7 +129,7 @@ class MockDHIS2Server:
             delay=delay,
             fail_count=fail_count
         )
-    
+
     def configure_endpoint(
         self,
         method: str,
@@ -140,7 +141,7 @@ class MockDHIS2Server:
     ) -> None:
         """Configure endpoint response (alias for configure_response)"""
         self.configure_response(method, path, status, data, delay=delay, fail_count=fail_count)
-    
+
     def configure_analytics_response(
         self,
         headers: List[Dict[str, str]],
@@ -160,7 +161,7 @@ class MockDHIS2Server:
             },
             delay=delay
         )
-    
+
     def configure_datavaluesets_response(
         self,
         data_values: List[Dict[str, str]],
@@ -173,7 +174,7 @@ class MockDHIS2Server:
             data={"dataValues": data_values},
             delay=delay
         )
-    
+
     def configure_import_response(
         self,
         imported: int = 0,
@@ -185,7 +186,7 @@ class MockDHIS2Server:
         """Configure import response"""
         conflicts = conflicts or []
         total = imported + updated + ignored + len(conflicts)
-        
+
         self.configure_response(
             "POST",
             "/api/dataValueSets",
@@ -199,19 +200,19 @@ class MockDHIS2Server:
             },
             delay=delay
         )
-    
+
     async def start(self) -> str:
         """Start the mock server"""
         self.runner = web.AppRunner(self.app)
         await self.runner.setup()
-        
+
         self.site = web.TCPSite(self.runner, self.host, self.port)
         await self.site.start()
-        
+
         base_url = f"http://{self.host}:{self.port}"
         logger.info(f"Mock DHIS2 server started at {base_url}")
         return base_url
-    
+
     async def stop(self) -> None:
         """Stop the mock server"""
         if self.site:
@@ -219,31 +220,31 @@ class MockDHIS2Server:
         if self.runner:
             await self.runner.cleanup()
         logger.info("Mock DHIS2 server stopped")
-    
+
     async def __aenter__(self):
         """Async context manager entry"""
         return await self.start()
-    
+
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         """Async context manager exit"""
         await self.stop()
-    
+
     def get_request_log(self) -> List[Dict[str, Any]]:
         """Get logged requests"""
         return self.request_log.copy()
-    
+
     def clear_request_log(self) -> None:
         """Clear request log"""
         self.request_log.clear()
-    
+
     def get_request_count(self, method: str = None, path: str = None) -> int:
         """Get count of requests matching criteria"""
         filtered_requests = self.request_log
-        
+
         if method:
             filtered_requests = [r for r in filtered_requests if r['method'].upper() == method.upper()]
-        
+
         if path:
             filtered_requests = [r for r in filtered_requests if r['path'] == path]
-        
+
         return len(filtered_requests)

@@ -2,21 +2,15 @@
 
 from .config import PipelineConfig, StepConfig
 from .executor import PipelineExecutor
-from .steps import (
-    AnalyticsStep,
-    TrackerStep, 
-    DataValueSetsStep,
-    DQRStep,
-    StepRegistry
-)
+from .steps import AnalyticsStep, DataValueSetsStep, DQRStep, StepRegistry, TrackerStep
 
 __all__ = [
     'PipelineConfig',
-    'StepConfig', 
+    'StepConfig',
     'PipelineExecutor',
     'AnalyticsStep',
     'TrackerStep',
-    'DataValueSetsStep', 
+    'DataValueSetsStep',
     'DQRStep',
     'StepRegistry'
 ]

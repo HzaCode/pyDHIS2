@@ -1,14 +1,15 @@
 """Type definitions and configuration models"""
 
-from typing import Any, Dict, List, Optional, Tuple, Union
-from pydantic import BaseModel, Field, validator
 from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+from pydantic import BaseModel, Field, validator
 
 
 class AuthMethod(str, Enum):
     """Authentication method enumeration"""
     BASIC = "basic"
-    TOKEN = "token" 
+    TOKEN = "token"
     PAT = "pat"  # Personal Access Token
 
 
@@ -27,10 +28,10 @@ class DHIS2Config(BaseModel):
     auth: Optional[Union[Tuple[str, str], str]] = Field(None, description="Authentication: tuple for basic auth or string for token")
     api_version: Optional[Union[int, str]] = Field(None, description="DHIS2 API version")
     user_agent: str = Field("pydhis2/0.2.0", description="User-Agent for requests")
-    
+
     # Timeout settings (total) - Increased default for more resilience
     timeout: float = Field(60.0, description="Total request timeout in seconds")
-    
+
     # Concurrency and rate limiting
     rps: float = Field(10.0, description="Requests per second limit", gt=0)
     concurrency: int = Field(10, description="Maximum concurrent connections", gt=0)
@@ -39,7 +40,7 @@ class DHIS2Config(BaseModel):
     compression: bool = Field(True, description="Whether to enable gzip compression")
     enable_cache: bool = Field(True, description="Whether to enable caching")
     cache_ttl: int = Field(3600, description="Cache TTL in seconds", gt=0)
-    
+
     # Retry configuration - Increased defaults for more resilience
     max_retries: int = Field(5, description="Maximum retry attempts", ge=0)
     retry_strategy: RetryStrategy = Field(RetryStrategy.EXPONENTIAL, description="Retry strategy")
@@ -93,7 +94,7 @@ class DHIS2Config(BaseModel):
 
 class PaginationConfig(BaseModel):
     """Pagination configuration"""
-    
+
     page_size: int = Field(200, description="Default page size", gt=0, le=10000)
     max_pages: Optional[int] = Field(None, description="Maximum page limit")
     use_paging: bool = Field(True, description="Whether to enable paging")
@@ -101,24 +102,24 @@ class PaginationConfig(BaseModel):
 
 class AnalyticsQuery(BaseModel):
     """Analytics query configuration"""
-    
+
     dx: Union[str, List[str]] = Field(..., description="Data dimension (indicators/data elements)")
-    ou: Union[str, List[str]] = Field(..., description="Organization units") 
+    ou: Union[str, List[str]] = Field(..., description="Organization units")
     pe: Union[str, List[str]] = Field(..., description="Period dimension")
     co: Optional[Union[str, List[str]]] = Field(None, description="Category option combinations")
     ao: Optional[Union[str, List[str]]] = Field(None, description="Attribute option combinations")
-    
+
     output_id_scheme: str = Field("UID", description="Output ID scheme")
     display_property: str = Field("NAME", description="Display property")
     skip_meta: bool = Field(False, description="Skip metadata")
     skip_data: bool = Field(False, description="Skip data")
     skip_rounding: bool = Field(False, description="Skip rounding")
-    
+
     def to_params(self) -> Dict[str, Any]:
         """Convert to request parameters"""
         params = {}
         dimensions = []
-        
+
         # Process dimensions - use correct DHIS2 Analytics API format
         for dim in ['dx', 'ou', 'pe', 'co', 'ao']:
             value = getattr(self, dim)
@@ -127,11 +128,11 @@ class AnalyticsQuery(BaseModel):
                     dimensions.append(f'{dim}:{";".join(value)}')
                 else:
                     dimensions.append(f'{dim}:{value}')
-        
+
         # Add dimensions as multiple dimension parameters
         if dimensions:
             params['dimension'] = dimensions
-        
+
         # Other parameters
         params.update({
             'outputIdScheme': self.output_id_scheme,
@@ -140,14 +141,14 @@ class AnalyticsQuery(BaseModel):
             'skipData': str(self.skip_data).lower(),
             'skipRounding': str(self.skip_rounding).lower(),
         })
-        
+
         return params
 
 
 class ImportStrategy(str, Enum):
     """Import strategy enumeration"""
     CREATE = "CREATE"
-    UPDATE = "UPDATE" 
+    UPDATE = "UPDATE"
     CREATE_AND_UPDATE = "CREATE_AND_UPDATE"
     DELETE = "DELETE"
 
@@ -160,7 +161,7 @@ class ImportMode(str, Enum):
 
 class ImportConfig(BaseModel):
     """Import configuration"""
-    
+
     strategy: ImportStrategy = Field(
         ImportStrategy.CREATE_AND_UPDATE, description="Import strategy"
     )
@@ -169,11 +170,11 @@ class ImportConfig(BaseModel):
     dry_run: bool = Field(False, description="Whether this is a dry run")
     chunk_size: int = Field(5000, description="Chunk size", gt=0)
     max_chunks: Optional[int] = Field(None, description="Maximum number of chunks")
-    
+
     # Conflict handling
     skip_existing_check: bool = Field(False, description="Skip existing check")
     skip_audit: bool = Field(False, description="Skip audit")
-    
+
     # Performance options
     async_import: bool = Field(False, description="Whether to perform async import")
     force: bool = Field(False, description="Force import")
@@ -182,7 +183,7 @@ class ImportConfig(BaseModel):
 class DataFrameFormat(str, Enum):
     """DataFrame output format"""
     PANDAS = "pandas"
-    ARROW = "arrow" 
+    ARROW = "arrow"
     POLARS = "polars"
 
 
