@@ -12,7 +12,7 @@ This project and everyone participating in it is governed by the [Code of Conduc
 
 ### Reporting Bugs
 
-This is one of the simplest ways to contribute. If you find a bug, please ensure the bug was not already reported by searching on GitHub under [Issues](https://github.com/pydhis2/pydhis2/issues).
+This is one of the simplest ways to contribute. If you find a bug, please ensure the bug was not already reported by searching on GitHub under [Issues](https://github.com/HzaCode/pyDHIS2/issues).
 
 If you're unable to find an open issue addressing the problem, open a new one. Be sure to include a title and clear description, as much relevant information as possible, and a code sample or an executable test case demonstrating the expected behavior that is not occurring.
 
@@ -24,8 +24,8 @@ If you have an idea for an enhancement, please open an issue to discuss it. This
 
 Unsure where to begin contributing to `pydhis2`? You can start by looking through these `good-first-issue` and `help-wanted` issues:
 
-- [Good first issues](https://github.com/pydhis2/pydhis2/labels/good%20first%20issue) - issues which should only require a few lines of code, and a test or two.
-- [Help wanted issues](https://github.com/pydhis2/pydhis2/labels/help%20wanted) - issues which should be a bit more involved than `good-first-issue` issues.
+- [Good first issues](https://github.com/HzaCode/pyDHIS2/labels/good%20first%20issue) - issues which should only require a few lines of code, and a test or two.
+- [Help wanted issues](https://github.com/HzaCode/pyDHIS2/labels/help%20wanted) - issues which should be a bit more involved than `good-first-issue` issues.
 
 ### Pull Requests
 

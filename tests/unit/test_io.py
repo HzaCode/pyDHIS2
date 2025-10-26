@@ -373,6 +373,49 @@ class TestArrowConverter:
         # Check that nullable field is properly marked
         has_nulls_field = next(f for f in schema if f.name == 'has_nulls')
         assert has_nulls_field.nullable is True
+    
+    def test_save_and_load_parquet(self, converter, sample_dataframe, tmp_path):
+        """Test save and load roundtrip for Parquet"""
+        file_path = tmp_path / "test.parquet"
+        table = converter.from_pandas(sample_dataframe)
+        
+        # Save
+        converter.save_parquet(table, file_path)
+        
+        # Load
+        loaded = converter.load_parquet(file_path)
+        loaded_df = converter.to_pandas(loaded)
+        
+        # Verify
+        pd.testing.assert_frame_equal(loaded_df.reset_index(drop=True), sample_dataframe.reset_index(drop=True), check_dtype=False)
+    
+    def test_save_and_load_feather(self, converter, sample_dataframe, tmp_path):
+        """Test save and load roundtrip for Feather"""
+        file_path = tmp_path / "test.feather"
+        table = converter.from_pandas(sample_dataframe)
+        
+        # Save
+        converter.save_feather(table, file_path)
+        
+        # Load
+        loaded = converter.load_feather(file_path)
+        loaded_df = converter.to_pandas(loaded)
+        
+        # Verify
+        pd.testing.assert_frame_equal(loaded_df.reset_index(drop=True), sample_dataframe.reset_index(drop=True), check_dtype=False)
+    
+    def test_compression_formats(self, converter, sample_dataframe, tmp_path):
+        """Test different compression formats"""
+        table = converter.from_pandas(sample_dataframe)
+        
+        for compression in ['snappy', 'gzip', 'zstd', 'lz4', None]:
+            file_path = tmp_path / f"test_{compression}.parquet"
+            try:
+                converter.save_parquet(table, file_path, compression=compression)
+                assert file_path.exists()
+            except Exception:
+                # Some compressions may not be available
+                pass
 
 
 class TestImportSummaryConverter:

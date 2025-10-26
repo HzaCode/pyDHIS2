@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-![1761039569900](image/ci/1761039569900.png)![1761039571157](image/ci/1761039571157.png)    branches: [ main, gh ]
+    branches: [ main, gh ]
   pull_request:
     branches: [ main ]
 
@@ -29,18 +29,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
       
-      - name: 🧪 Run tests with coverage
+      - name: 🧪 Run tests
         run: |
-          pytest tests/ -v --tb=short --cov=pydhis2 --cov-report=xml --cov-report=term-missing || true
-      
-      - name: 📊 Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
-        with:
-          file: ./coverage.xml
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: false
+          pytest tests/unit/ tests/integration/ -v --tb=short -x
       
       - name: ✅ Summary
         run: |
@@ -64,5 +55,5 @@ jobs:
       
       - name: 🔍 Run ruff
         run: |
-          ruff check pydhis2/ || true
+          ruff check pydhis2/
           echo "✅ Linting completed"

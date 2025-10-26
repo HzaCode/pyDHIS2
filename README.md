@@ -22,11 +22,11 @@
   <a href="https://pepy.tech/project/pydhis2">
     <img src="https://img.shields.io/pepy/dt/pydhis2?style=flat&color=blue" alt="Downloads">
   </a>
-  <!-- Test Passing -->
+  <!-- Test Status -->
   <a href="https://github.com/HzaCode/pyDHIS2/actions/workflows/ci.yml">
-    <img src="https://img.shields.io/badge/tests-passing-brightgreen?style=flat" alt="Tests">
+    <img src="https://img.shields.io/github/actions/workflow/status/HzaCode/pyDHIS2/ci.yml?branch=main&label=test&style=flat" alt="Tests">
   </a>
-  <!-- Docs Passing -->
+  <!-- Documentation -->
   <a href="https://hzacode.github.io/pyDHIS2">
     <img src="https://img.shields.io/badge/docs-passing-brightgreen?style=flat" alt="Docs">
   </a>
@@ -36,7 +36,7 @@
   </a>
   <!-- Ruff -->
   <a href="https://github.com/astral-sh/ruff">
-    <img src="https://img.shields.io/badge/code%20style-ruff-black?style=flat" alt="Ruff">
+    <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff">
   </a>
 </p>
 </div>
