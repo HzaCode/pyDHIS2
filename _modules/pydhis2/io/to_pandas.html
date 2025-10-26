@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pydhis2.io.to_pandas &mdash; pydhis2 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/image.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=938c9ccc"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=30646c52"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pydhis2
+              <img src="../../../_static/image.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.2.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#from-pypi">From PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#from-source">From Source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#development-installation">Development Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#verify-installation">Verify Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#basic-example">Basic Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#synchronous-client">Synchronous Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#using-environment-variables">Using Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration.html">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../configuration.html#environment-variables">Environment Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../configuration.html#direct-configuration">Direct Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../configuration.html#advanced-options">Advanced Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../configuration.html#rate-limiting">Rate Limiting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../configuration.html#retry-configuration">Retry Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../configuration.html#caching">Caching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../configuration.html#timeouts">Timeouts</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../configuration.html#using-configuration-files">Using Configuration Files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../analytics.html">Analytics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../analytics.html#basic-query">Basic Query</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../analytics.html#query-parameters">Query Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../analytics.html#dx-data-dimension">dx (Data Dimension)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../analytics.html#ou-organisation-units">ou (Organisation Units)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../analytics.html#pe-periods">pe (Periods)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../analytics.html#dataframe-conversion">DataFrame Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../analytics.html#export-formats">Export Formats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../analytics.html#parquet">Parquet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../analytics.html#csv">CSV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../analytics.html#arrow">Arrow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../analytics.html#pagination-and-streaming">Pagination and Streaming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../analytics.html#filters">Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../analytics.html#advanced-options">Advanced Options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../analytics.html#skip-metadata">Skip Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../analytics.html#hierarchy-meta">Hierarchy Meta</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../datavaluesets.html">DataValueSets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../datavaluesets.html#pulling-reading-data-values">Pulling (Reading) Data Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../datavaluesets.html#pushing-writing-data-values">Pushing (Writing) Data Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../datavaluesets.html#bulk-import-with-chunking">Bulk Import with Chunking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../datavaluesets.html#streaming-large-datasets">Streaming Large Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../datavaluesets.html#export-to-file">Export to File</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tracker.html">Tracker</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tracker.html#fetching-events-as-raw-json">Fetching Events as Raw JSON</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tracker.html#fetching-events-as-dataframe">Fetching Events as DataFrame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tracker.html#streaming-events">Streaming Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tracker.html#creating-events">Creating Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tracker.html#tracked-entities-raw-json">Tracked Entities (Raw JSON)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tracker.html#tracked-entities-dataframe">Tracked Entities (DataFrame)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tracker.html#export-to-file">Export to File</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../metadata.html">Metadata</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../metadata.html#fetching-specific-metadata-types">Fetching Specific Metadata Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../metadata.html#exporting-metadata">Exporting Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../metadata.html#importing-metadata">Importing Metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../metadata.html#common-metadata-types">Common Metadata Types</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dqr.html">Data Quality Review (DQR)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../dqr.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dqr.html#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dqr.html#completeness-metrics">Completeness Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dqr.html#consistency-metrics">Consistency Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dqr.html#timeliness-metrics">Timeliness Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dqr.html#generating-reports">Generating Reports</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../dqr.html#collect-all-results">Collect All Results</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../dqr.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli.html#installation-verification">Installation Verification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli.html#analytics-commands">Analytics Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli.html#pull-analytics-data">Pull Analytics Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli.html#query-with-multiple-dimensions">Query with Multiple Dimensions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli.html#tracker-commands">Tracker Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli.html#pull-events">Pull Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli.html#pull-tracked-entities">Pull Tracked Entities</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli.html#data-quality-commands">Data Quality Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli.html#run-dqr-analysis">Run DQR Analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli.html#generate-dqr-report">Generate DQR Report</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli.html#pipeline-commands">Pipeline Commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli.html#run-analysis-pipeline">Run Analysis Pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli.html#validate-pipeline">Validate Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli.html#project-template">Project Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli.html#create-new-project">Create New Project</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli.html#help">Help</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/client.html">Client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/client.html#asyncdhis2client">AsyncDHIS2Client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.AsyncDHIS2Client"><code class="docutils literal notranslate"><span class="pre">AsyncDHIS2Client</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.AsyncDHIS2Client.__init__"><code class="docutils literal notranslate"><span class="pre">AsyncDHIS2Client.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.AsyncDHIS2Client.__aenter__"><code class="docutils literal notranslate"><span class="pre">AsyncDHIS2Client.__aenter__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.AsyncDHIS2Client.__aexit__"><code class="docutils literal notranslate"><span class="pre">AsyncDHIS2Client.__aexit__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.AsyncDHIS2Client.close"><code class="docutils literal notranslate"><span class="pre">AsyncDHIS2Client.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.AsyncDHIS2Client.get"><code class="docutils literal notranslate"><span class="pre">AsyncDHIS2Client.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.AsyncDHIS2Client.post"><code class="docutils literal notranslate"><span class="pre">AsyncDHIS2Client.post()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.AsyncDHIS2Client.put"><code class="docutils literal notranslate"><span class="pre">AsyncDHIS2Client.put()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.AsyncDHIS2Client.delete"><code class="docutils literal notranslate"><span class="pre">AsyncDHIS2Client.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.AsyncDHIS2Client.get_paginated"><code class="docutils literal notranslate"><span class="pre">AsyncDHIS2Client.get_paginated()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.AsyncDHIS2Client.get_paginated_atomic"><code class="docutils literal notranslate"><span class="pre">AsyncDHIS2Client.get_paginated_atomic()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.AsyncDHIS2Client.get_stats"><code class="docutils literal notranslate"><span class="pre">AsyncDHIS2Client.get_stats()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/client.html#syncdhis2client">SyncDHIS2Client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.SyncDHIS2Client"><code class="docutils literal notranslate"><span class="pre">SyncDHIS2Client</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.SyncDHIS2Client.__init__"><code class="docutils literal notranslate"><span class="pre">SyncDHIS2Client.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.SyncDHIS2Client.__enter__"><code class="docutils literal notranslate"><span class="pre">SyncDHIS2Client.__enter__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.SyncDHIS2Client.__exit__"><code class="docutils literal notranslate"><span class="pre">SyncDHIS2Client.__exit__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.SyncDHIS2Client.get"><code class="docutils literal notranslate"><span class="pre">SyncDHIS2Client.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.SyncDHIS2Client.post"><code class="docutils literal notranslate"><span class="pre">SyncDHIS2Client.post()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/client.html#pydhis2.core.client.SyncDHIS2Client.get_stats"><code class="docutils literal notranslate"><span class="pre">SyncDHIS2Client.get_stats()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/client.html#helper-functions">Helper Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/client.html#pydhis2.get_client"><code class="docutils literal notranslate"><span class="pre">get_client()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/endpoints.html">Endpoints</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/endpoints.html#analytics-endpoint">Analytics Endpoint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.analytics.AnalyticsEndpoint"><code class="docutils literal notranslate"><span class="pre">AnalyticsEndpoint</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.analytics.AnalyticsEndpoint.__init__"><code class="docutils literal notranslate"><span class="pre">AnalyticsEndpoint.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.analytics.AnalyticsEndpoint.raw"><code class="docutils literal notranslate"><span class="pre">AnalyticsEndpoint.raw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.analytics.AnalyticsEndpoint.to_pandas"><code class="docutils literal notranslate"><span class="pre">AnalyticsEndpoint.to_pandas()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.analytics.AnalyticsEndpoint.to_arrow"><code class="docutils literal notranslate"><span class="pre">AnalyticsEndpoint.to_arrow()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.analytics.AnalyticsEndpoint.stream_paginated"><code class="docutils literal notranslate"><span class="pre">AnalyticsEndpoint.stream_paginated()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.analytics.AnalyticsEndpoint.export_to_file"><code class="docutils literal notranslate"><span class="pre">AnalyticsEndpoint.export_to_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.analytics.AnalyticsEndpoint.get_dimensions"><code class="docutils literal notranslate"><span class="pre">AnalyticsEndpoint.get_dimensions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.analytics.AnalyticsEndpoint.get_dimension_items"><code class="docutils literal notranslate"><span class="pre">AnalyticsEndpoint.get_dimension_items()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.analytics.AnalyticsEndpoint.validate_query"><code class="docutils literal notranslate"><span class="pre">AnalyticsEndpoint.validate_query()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/endpoints.html#datavaluesets-endpoint">DataValueSets Endpoint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.datavaluesets.DataValueSetsEndpoint"><code class="docutils literal notranslate"><span class="pre">DataValueSetsEndpoint</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.datavaluesets.DataValueSetsEndpoint.__init__"><code class="docutils literal notranslate"><span class="pre">DataValueSetsEndpoint.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.datavaluesets.DataValueSetsEndpoint.pull"><code class="docutils literal notranslate"><span class="pre">DataValueSetsEndpoint.pull()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.datavaluesets.DataValueSetsEndpoint.pull_paginated"><code class="docutils literal notranslate"><span class="pre">DataValueSetsEndpoint.pull_paginated()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.datavaluesets.DataValueSetsEndpoint.push"><code class="docutils literal notranslate"><span class="pre">DataValueSetsEndpoint.push()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.datavaluesets.DataValueSetsEndpoint.get_import_status"><code class="docutils literal notranslate"><span class="pre">DataValueSetsEndpoint.get_import_status()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.datavaluesets.DataValueSetsEndpoint.export_to_file"><code class="docutils literal notranslate"><span class="pre">DataValueSetsEndpoint.export_to_file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/endpoints.html#tracker-endpoint">Tracker Endpoint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.tracker.TrackerEndpoint"><code class="docutils literal notranslate"><span class="pre">TrackerEndpoint</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.tracker.TrackerEndpoint.__init__"><code class="docutils literal notranslate"><span class="pre">TrackerEndpoint.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.tracker.TrackerEndpoint.events"><code class="docutils literal notranslate"><span class="pre">TrackerEndpoint.events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.tracker.TrackerEndpoint.events_to_pandas"><code class="docutils literal notranslate"><span class="pre">TrackerEndpoint.events_to_pandas()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.tracker.TrackerEndpoint.tracked_entities"><code class="docutils literal notranslate"><span class="pre">TrackerEndpoint.tracked_entities()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.tracker.TrackerEndpoint.tracked_entities_to_pandas"><code class="docutils literal notranslate"><span class="pre">TrackerEndpoint.tracked_entities_to_pandas()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.tracker.TrackerEndpoint.stream_events"><code class="docutils literal notranslate"><span class="pre">TrackerEndpoint.stream_events()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.tracker.TrackerEndpoint.get_event"><code class="docutils literal notranslate"><span class="pre">TrackerEndpoint.get_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.tracker.TrackerEndpoint.get_tracked_entity"><code class="docutils literal notranslate"><span class="pre">TrackerEndpoint.get_tracked_entity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.tracker.TrackerEndpoint.create_event"><code class="docutils literal notranslate"><span class="pre">TrackerEndpoint.create_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.tracker.TrackerEndpoint.update_event"><code class="docutils literal notranslate"><span class="pre">TrackerEndpoint.update_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.tracker.TrackerEndpoint.delete_event"><code class="docutils literal notranslate"><span class="pre">TrackerEndpoint.delete_event()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.tracker.TrackerEndpoint.export_events_to_file"><code class="docutils literal notranslate"><span class="pre">TrackerEndpoint.export_events_to_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.tracker.TrackerEndpoint.export_tracked_entities_to_file"><code class="docutils literal notranslate"><span class="pre">TrackerEndpoint.export_tracked_entities_to_file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/endpoints.html#metadata-endpoint">Metadata Endpoint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.metadata.MetadataEndpoint"><code class="docutils literal notranslate"><span class="pre">MetadataEndpoint</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.metadata.MetadataEndpoint.__init__"><code class="docutils literal notranslate"><span class="pre">MetadataEndpoint.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.metadata.MetadataEndpoint.export"><code class="docutils literal notranslate"><span class="pre">MetadataEndpoint.export()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.metadata.MetadataEndpoint.import_"><code class="docutils literal notranslate"><span class="pre">MetadataEndpoint.import_()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.metadata.MetadataEndpoint.get_schemas"><code class="docutils literal notranslate"><span class="pre">MetadataEndpoint.get_schemas()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.metadata.MetadataEndpoint.get_schema"><code class="docutils literal notranslate"><span class="pre">MetadataEndpoint.get_schema()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.metadata.MetadataEndpoint.get_data_elements"><code class="docutils literal notranslate"><span class="pre">MetadataEndpoint.get_data_elements()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.metadata.MetadataEndpoint.get_indicators"><code class="docutils literal notranslate"><span class="pre">MetadataEndpoint.get_indicators()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.metadata.MetadataEndpoint.get_organisation_units"><code class="docutils literal notranslate"><span class="pre">MetadataEndpoint.get_organisation_units()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.metadata.MetadataEndpoint.get_option_sets"><code class="docutils literal notranslate"><span class="pre">MetadataEndpoint.get_option_sets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.metadata.MetadataEndpoint.validate_metadata"><code class="docutils literal notranslate"><span class="pre">MetadataEndpoint.validate_metadata()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.metadata.MetadataEndpoint.export_to_file"><code class="docutils literal notranslate"><span class="pre">MetadataEndpoint.export_to_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/endpoints.html#pydhis2.endpoints.metadata.MetadataEndpoint.import_from_file"><code class="docutils literal notranslate"><span class="pre">MetadataEndpoint.import_from_file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/types.html">Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/types.html#configuration-types">Configuration Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#dhis2config">DHIS2Config</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/types.html#pydhis2.core.types.DHIS2Config"><code class="docutils literal notranslate"><span class="pre">DHIS2Config</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/types.html#query-types">Query Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#analyticsquery">AnalyticsQuery</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/types.html#pydhis2.core.types.AnalyticsQuery"><code class="docutils literal notranslate"><span class="pre">AnalyticsQuery</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/types.html#module-pydhis2.core.errors">Error Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.DHIS2Error"><code class="docutils literal notranslate"><span class="pre">DHIS2Error</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.DHIS2Error.__init__"><code class="docutils literal notranslate"><span class="pre">DHIS2Error.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.DHIS2HTTPError"><code class="docutils literal notranslate"><span class="pre">DHIS2HTTPError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.DHIS2HTTPError.__init__"><code class="docutils literal notranslate"><span class="pre">DHIS2HTTPError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.AllPagesFetchError"><code class="docutils literal notranslate"><span class="pre">AllPagesFetchError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.RateLimitExceeded"><code class="docutils literal notranslate"><span class="pre">RateLimitExceeded</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.RateLimitExceeded.__init__"><code class="docutils literal notranslate"><span class="pre">RateLimitExceeded.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.RetryExhausted"><code class="docutils literal notranslate"><span class="pre">RetryExhausted</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.RetryExhausted.__init__"><code class="docutils literal notranslate"><span class="pre">RetryExhausted.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.ImportConflictError"><code class="docutils literal notranslate"><span class="pre">ImportConflictError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.ImportConflictError.__init__"><code class="docutils literal notranslate"><span class="pre">ImportConflictError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.AuthenticationError"><code class="docutils literal notranslate"><span class="pre">AuthenticationError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.AuthenticationError.__init__"><code class="docutils literal notranslate"><span class="pre">AuthenticationError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.AuthorizationError"><code class="docutils literal notranslate"><span class="pre">AuthorizationError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.AuthorizationError.__init__"><code class="docutils literal notranslate"><span class="pre">AuthorizationError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.ValidationError"><code class="docutils literal notranslate"><span class="pre">ValidationError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.ValidationError.__init__"><code class="docutils literal notranslate"><span class="pre">ValidationError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.TimeoutError"><code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.TimeoutError.__init__"><code class="docutils literal notranslate"><span class="pre">TimeoutError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.DataFormatError"><code class="docutils literal notranslate"><span class="pre">DataFormatError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.DataFormatError.__init__"><code class="docutils literal notranslate"><span class="pre">DataFormatError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.MetadataError"><code class="docutils literal notranslate"><span class="pre">MetadataError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.MetadataError.__init__"><code class="docutils literal notranslate"><span class="pre">MetadataError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/types.html#pydhis2.core.errors.format_dhis2_error"><code class="docutils literal notranslate"><span class="pre">format_dhis2_error()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/io.html">I/O Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/io.html#module-pydhis2.io.to_pandas">Pandas Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pydhis2.io.to_pandas.AnalyticsDataFrameConverter"><code class="docutils literal notranslate"><span class="pre">AnalyticsDataFrameConverter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.to_pandas.AnalyticsDataFrameConverter.to_dataframe"><code class="docutils literal notranslate"><span class="pre">AnalyticsDataFrameConverter.to_dataframe()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pydhis2.io.to_pandas.DataValueSetsConverter"><code class="docutils literal notranslate"><span class="pre">DataValueSetsConverter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.to_pandas.DataValueSetsConverter.to_dataframe"><code class="docutils literal notranslate"><span class="pre">DataValueSetsConverter.to_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.to_pandas.DataValueSetsConverter.from_dataframe"><code class="docutils literal notranslate"><span class="pre">DataValueSetsConverter.from_dataframe()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pydhis2.io.to_pandas.TrackerConverter"><code class="docutils literal notranslate"><span class="pre">TrackerConverter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.to_pandas.TrackerConverter.events_to_dataframe"><code class="docutils literal notranslate"><span class="pre">TrackerConverter.events_to_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.to_pandas.TrackerConverter.tracked_entities_to_dataframe"><code class="docutils literal notranslate"><span class="pre">TrackerConverter.tracked_entities_to_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.to_pandas.TrackerConverter.dataframe_to_events"><code class="docutils literal notranslate"><span class="pre">TrackerConverter.dataframe_to_events()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pydhis2.io.to_pandas.ImportSummaryConverter"><code class="docutils literal notranslate"><span class="pre">ImportSummaryConverter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.to_pandas.ImportSummaryConverter.conflicts_to_dataframe"><code class="docutils literal notranslate"><span class="pre">ImportSummaryConverter.conflicts_to_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.to_pandas.ImportSummaryConverter.summary_to_dataframe"><code class="docutils literal notranslate"><span class="pre">ImportSummaryConverter.summary_to_dataframe()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/io.html#module-pydhis2.io.arrow">Arrow Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pydhis2.io.arrow.ArrowConverter"><code class="docutils literal notranslate"><span class="pre">ArrowConverter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.arrow.ArrowConverter.__init__"><code class="docutils literal notranslate"><span class="pre">ArrowConverter.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.arrow.ArrowConverter.from_pandas"><code class="docutils literal notranslate"><span class="pre">ArrowConverter.from_pandas()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.arrow.ArrowConverter.to_pandas"><code class="docutils literal notranslate"><span class="pre">ArrowConverter.to_pandas()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.arrow.ArrowConverter.save_parquet"><code class="docutils literal notranslate"><span class="pre">ArrowConverter.save_parquet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.arrow.ArrowConverter.load_parquet"><code class="docutils literal notranslate"><span class="pre">ArrowConverter.load_parquet()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.arrow.ArrowConverter.save_feather"><code class="docutils literal notranslate"><span class="pre">ArrowConverter.save_feather()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.arrow.ArrowConverter.load_feather"><code class="docutils literal notranslate"><span class="pre">ArrowConverter.load_feather()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.arrow.ArrowConverter.get_schema_info"><code class="docutils literal notranslate"><span class="pre">ArrowConverter.get_schema_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.arrow.ArrowConverter.optimize_schema"><code class="docutils literal notranslate"><span class="pre">ArrowConverter.optimize_schema()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.arrow.ArrowConverter.compress_table"><code class="docutils literal notranslate"><span class="pre">ArrowConverter.compress_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.arrow.ArrowConverter.estimate_size"><code class="docutils literal notranslate"><span class="pre">ArrowConverter.estimate_size()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/io.html#module-pydhis2.io.schema">Schema Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.DHIS2Version"><code class="docutils literal notranslate"><span class="pre">DHIS2Version</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.DHIS2Version.V2_36"><code class="docutils literal notranslate"><span class="pre">DHIS2Version.V2_36</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.DHIS2Version.V2_37"><code class="docutils literal notranslate"><span class="pre">DHIS2Version.V2_37</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.DHIS2Version.V2_38"><code class="docutils literal notranslate"><span class="pre">DHIS2Version.V2_38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.DHIS2Version.V2_39"><code class="docutils literal notranslate"><span class="pre">DHIS2Version.V2_39</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.DHIS2Version.V2_40"><code class="docutils literal notranslate"><span class="pre">DHIS2Version.V2_40</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.DHIS2Version.V2_41"><code class="docutils literal notranslate"><span class="pre">DHIS2Version.V2_41</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.DHIS2Version.UNKNOWN"><code class="docutils literal notranslate"><span class="pre">DHIS2Version.UNKNOWN</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.FieldMapping"><code class="docutils literal notranslate"><span class="pre">FieldMapping</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.FieldMapping.source_field"><code class="docutils literal notranslate"><span class="pre">FieldMapping.source_field</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.FieldMapping.target_field"><code class="docutils literal notranslate"><span class="pre">FieldMapping.target_field</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.FieldMapping.data_type"><code class="docutils literal notranslate"><span class="pre">FieldMapping.data_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.FieldMapping.default_value"><code class="docutils literal notranslate"><span class="pre">FieldMapping.default_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.FieldMapping.transform_func"><code class="docutils literal notranslate"><span class="pre">FieldMapping.transform_func</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.FieldMapping.required"><code class="docutils literal notranslate"><span class="pre">FieldMapping.required</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.FieldMapping.version_introduced"><code class="docutils literal notranslate"><span class="pre">FieldMapping.version_introduced</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.FieldMapping.version_deprecated"><code class="docutils literal notranslate"><span class="pre">FieldMapping.version_deprecated</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.FieldMapping.__init__"><code class="docutils literal notranslate"><span class="pre">FieldMapping.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.EndpointSchema"><code class="docutils literal notranslate"><span class="pre">EndpointSchema</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.EndpointSchema.endpoint"><code class="docutils literal notranslate"><span class="pre">EndpointSchema.endpoint</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.EndpointSchema.version"><code class="docutils literal notranslate"><span class="pre">EndpointSchema.version</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.EndpointSchema.field_mappings"><code class="docutils literal notranslate"><span class="pre">EndpointSchema.field_mappings</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.EndpointSchema.response_structure"><code class="docutils literal notranslate"><span class="pre">EndpointSchema.response_structure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.EndpointSchema.pagination_fields"><code class="docutils literal notranslate"><span class="pre">EndpointSchema.pagination_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.EndpointSchema.__init__"><code class="docutils literal notranslate"><span class="pre">EndpointSchema.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.SchemaManager"><code class="docutils literal notranslate"><span class="pre">SchemaManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.SchemaManager.__init__"><code class="docutils literal notranslate"><span class="pre">SchemaManager.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.SchemaManager.get_schema"><code class="docutils literal notranslate"><span class="pre">SchemaManager.get_schema()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.SchemaManager.get_field_mapping"><code class="docutils literal notranslate"><span class="pre">SchemaManager.get_field_mapping()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.SchemaManager.transform_response"><code class="docutils literal notranslate"><span class="pre">SchemaManager.transform_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.SchemaManager.detect_version"><code class="docutils literal notranslate"><span class="pre">SchemaManager.detect_version()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#pydhis2.io.schema.SchemaManager.validate_data"><code class="docutils literal notranslate"><span class="pre">SchemaManager.validate_data()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pydhis2</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../pydhis2.html">pydhis2</a></li>
+      <li class="breadcrumb-item active">pydhis2.io.to_pandas</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pydhis2.io.to_pandas</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Pandas DataFrame converters&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+
+<div class="viewcode-block" id="AnalyticsDataFrameConverter">
+<a class="viewcode-back" href="../../../api/io.html#pydhis2.io.to_pandas.AnalyticsDataFrameConverter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AnalyticsDataFrameConverter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Analytics data converter&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AnalyticsDataFrameConverter.to_dataframe">
+<a class="viewcode-back" href="../../../api/io.html#pydhis2.io.to_pandas.AnalyticsDataFrameConverter.to_dataframe">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dataframe</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+        <span class="n">long_format</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert Analytics JSON to DataFrame&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;rows&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;rows&#39;</span><span class="p">]</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">,</span> <span class="p">[])</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">rows</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">headers</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="c1"># Create column name mapping</span>
+        <span class="n">column_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;col_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">headers</span><span class="p">)]</span>
+
+        <span class="c1"># Convert to DataFrame</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">column_names</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">long_format</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_long_format</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">df</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_to_long_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to long format (standardized)&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">df</span>
+
+        <span class="c1"># Standard column name mapping</span>
+        <span class="n">standard_columns</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;dx&#39;</span><span class="p">:</span> <span class="s1">&#39;dx&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;pe&#39;</span><span class="p">:</span> <span class="s1">&#39;period&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;ou&#39;</span><span class="p">:</span> <span class="s1">&#39;orgUnit&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;co&#39;</span><span class="p">:</span> <span class="s1">&#39;categoryOptionCombo&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;ao&#39;</span><span class="p">:</span> <span class="s1">&#39;attributeOptionCombo&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Rename columns</span>
+        <span class="n">df_renamed</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">old_name</span><span class="p">,</span> <span class="n">new_name</span> <span class="ow">in</span> <span class="n">standard_columns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">old_name</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="n">df_renamed</span> <span class="o">=</span> <span class="n">df_renamed</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">old_name</span><span class="p">:</span> <span class="n">new_name</span><span class="p">})</span>
+
+        <span class="c1"># Convert data types</span>
+        <span class="k">if</span> <span class="s1">&#39;value&#39;</span> <span class="ow">in</span> <span class="n">df_renamed</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">df_renamed</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df_renamed</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df_renamed</span></div>
+
+
+
+<div class="viewcode-block" id="DataValueSetsConverter">
+<a class="viewcode-back" href="../../../api/io.html#pydhis2.io.to_pandas.DataValueSetsConverter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataValueSetsConverter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataValueSets data converter&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DataValueSetsConverter.to_dataframe">
+<a class="viewcode-back" href="../../../api/io.html#pydhis2.io.to_pandas.DataValueSetsConverter.to_dataframe">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert DataValueSets JSON to DataFrame&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;dataValues&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="n">data_values</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;dataValues&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data_values</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="c1"># Convert to DataFrame</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_values</span><span class="p">)</span>
+
+        <span class="c1"># Standardize column names</span>
+        <span class="n">column_mapping</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;dataElement&#39;</span><span class="p">:</span> <span class="s1">&#39;dataElement&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;period&#39;</span><span class="p">:</span> <span class="s1">&#39;period&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;orgUnit&#39;</span><span class="p">:</span> <span class="s1">&#39;orgUnit&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;categoryOptionCombo&#39;</span><span class="p">:</span> <span class="s1">&#39;categoryOptionCombo&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;attributeOptionCombo&#39;</span><span class="p">:</span> <span class="s1">&#39;attributeOptionCombo&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;storedBy&#39;</span><span class="p">:</span> <span class="s1">&#39;storedBy&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;lastUpdated&#39;</span><span class="p">:</span> <span class="s1">&#39;lastUpdated&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;created&#39;</span><span class="p">:</span> <span class="s1">&#39;created&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;comment&#39;</span><span class="p">:</span> <span class="s1">&#39;comment&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;followup&#39;</span><span class="p">:</span> <span class="s1">&#39;followup&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="c1"># Rename existing columns</span>
+        <span class="k">for</span> <span class="n">old_name</span><span class="p">,</span> <span class="n">new_name</span> <span class="ow">in</span> <span class="n">column_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">old_name</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="n">old_name</span> <span class="o">!=</span> <span class="n">new_name</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">old_name</span><span class="p">:</span> <span class="n">new_name</span><span class="p">})</span>
+
+        <span class="c1"># Convert data types</span>
+        <span class="k">if</span> <span class="s1">&#39;value&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="c1"># Try to convert to numeric, otherwise keep as string</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Convert date columns</span>
+        <span class="n">date_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;lastUpdated&#39;</span><span class="p">,</span> <span class="s1">&#39;created&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">date_columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Convert boolean columns</span>
+        <span class="k">if</span> <span class="s1">&#39;followup&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;followup&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;followup&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="DataValueSetsConverter.from_dataframe">
+<a class="viewcode-back" href="../../../api/io.html#pydhis2.io.to_pandas.DataValueSetsConverter.from_dataframe">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert DataFrame to DataValueSets JSON format&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;dataValues&#39;</span><span class="p">:</span> <span class="p">[]}</span>
+
+        <span class="c1"># Ensure required columns exist</span>
+        <span class="n">required_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dataElement&#39;</span><span class="p">,</span> <span class="s1">&#39;period&#39;</span><span class="p">,</span> <span class="s1">&#39;orgUnit&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">]</span>
+        <span class="n">missing_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">required_columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">missing_columns</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing required columns: </span><span class="si">{</span><span class="n">missing_columns</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Convert to list of dictionaries</span>
+        <span class="n">data_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">data_value</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="c1"># Required fields</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">required_columns</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="p">]):</span>
+                    <span class="n">data_value</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+
+            <span class="c1"># Optional fields</span>
+            <span class="n">optional_fields</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s1">&#39;categoryOptionCombo&#39;</span><span class="p">,</span> <span class="s1">&#39;attributeOptionCombo&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;comment&#39;</span><span class="p">,</span> <span class="s1">&#39;storedBy&#39;</span><span class="p">,</span> <span class="s1">&#39;followup&#39;</span>
+            <span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">optional_fields</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">field</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="n">field</span> <span class="o">==</span> <span class="s1">&#39;followup&#39;</span><span class="p">:</span>
+                        <span class="n">data_value</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">field</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">data_value</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">field</span><span class="p">])</span>
+
+            <span class="n">data_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_value</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;dataValues&#39;</span><span class="p">:</span> <span class="n">data_values</span><span class="p">}</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TrackerConverter">
+<a class="viewcode-back" href="../../../api/io.html#pydhis2.io.to_pandas.TrackerConverter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TrackerConverter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tracker data converter&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TrackerConverter.events_to_dataframe">
+<a class="viewcode-back" href="../../../api/io.html#pydhis2.io.to_pandas.TrackerConverter.events_to_dataframe">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">events_to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert list of events to DataFrame&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">events</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="n">flattened_events</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+            <span class="n">flat_event</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;event&#39;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;event&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;program&#39;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;program&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;programStage&#39;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;programStage&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;orgUnit&#39;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;orgUnit&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;orgUnitName&#39;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;orgUnitName&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;occurredAt&#39;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;occurredAt&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;scheduledAt&#39;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;scheduledAt&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;createdAt&#39;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;createdAt&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;updatedAt&#39;</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;updatedAt&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;geometry&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">))</span> <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">}</span>
+
+            <span class="c1"># Flatten data values</span>
+            <span class="n">data_values</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dataValues&#39;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="k">for</span> <span class="n">dv</span> <span class="ow">in</span> <span class="n">data_values</span><span class="p">:</span>
+                <span class="n">data_element</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dataElement&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">dv</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="n">flat_event</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;dataValue_</span><span class="si">{</span><span class="n">data_element</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+            <span class="n">flattened_events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flat_event</span><span class="p">)</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">flattened_events</span><span class="p">)</span>
+
+        <span class="c1"># Convert date columns</span>
+        <span class="n">date_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;occurredAt&#39;</span><span class="p">,</span> <span class="s1">&#39;scheduledAt&#39;</span><span class="p">,</span> <span class="s1">&#39;createdAt&#39;</span><span class="p">,</span> <span class="s1">&#39;updatedAt&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">date_columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="TrackerConverter.tracked_entities_to_dataframe">
+<a class="viewcode-back" href="../../../api/io.html#pydhis2.io.to_pandas.TrackerConverter.tracked_entities_to_dataframe">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tracked_entities_to_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entities</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert list of tracked entities to DataFrame&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">entities</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+        <span class="n">flattened_entities</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+            <span class="n">flat_entity</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;trackedEntity&#39;</span><span class="p">:</span> <span class="n">entity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;trackedEntity&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;trackedEntityType&#39;</span><span class="p">:</span> <span class="n">entity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;trackedEntityType&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;orgUnit&#39;</span><span class="p">:</span> <span class="n">entity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;orgUnit&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;createdAt&#39;</span><span class="p">:</span> <span class="n">entity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;createdAt&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;updatedAt&#39;</span><span class="p">:</span> <span class="n">entity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;updatedAt&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;geometry&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">entity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">))</span> <span class="k">if</span> <span class="n">entity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">}</span>
+
+            <span class="c1"># Flatten attributes</span>
+            <span class="n">attributes</span> <span class="o">=</span> <span class="n">entity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;attributes&#39;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">:</span>
+                <span class="n">attribute_id</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;attribute&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="n">flat_entity</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;attribute_</span><span class="si">{</span><span class="n">attribute_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+            <span class="c1"># Add enrollment information</span>
+            <span class="n">enrollments</span> <span class="o">=</span> <span class="n">entity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;enrollments&#39;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="k">if</span> <span class="n">enrollments</span><span class="p">:</span>
+                <span class="n">enrollment</span> <span class="o">=</span> <span class="n">enrollments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Take the first enrollment</span>
+                <span class="n">flat_entity</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+                    <span class="s1">&#39;enrollment&#39;</span><span class="p">:</span> <span class="n">enrollment</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;enrollment&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                    <span class="s1">&#39;program&#39;</span><span class="p">:</span> <span class="n">enrollment</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;program&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                    <span class="s1">&#39;enrollmentDate&#39;</span><span class="p">:</span> <span class="n">enrollment</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;enrolledAt&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                    <span class="s1">&#39;incidentDate&#39;</span><span class="p">:</span> <span class="n">enrollment</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;occurredAt&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                    <span class="s1">&#39;enrollmentStatus&#39;</span><span class="p">:</span> <span class="n">enrollment</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="p">})</span>
+
+            <span class="n">flattened_entities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flat_entity</span><span class="p">)</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">flattened_entities</span><span class="p">)</span>
+
+        <span class="c1"># Convert date columns</span>
+        <span class="n">date_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;createdAt&#39;</span><span class="p">,</span> <span class="s1">&#39;updatedAt&#39;</span><span class="p">,</span> <span class="s1">&#39;enrollmentDate&#39;</span><span class="p">,</span> <span class="s1">&#39;incidentDate&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">date_columns</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="TrackerConverter.dataframe_to_events">
+<a class="viewcode-back" href="../../../api/io.html#pydhis2.io.to_pandas.TrackerConverter.dataframe_to_events">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dataframe_to_events</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert DataFrame to event format&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="n">event</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;program&#39;</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;program&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;programStage&#39;</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;programStage&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;orgUnit&#39;</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;orgUnit&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="s1">&#39;ACTIVE&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;occurredAt&#39;</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;occurredAt&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+            <span class="p">}</span>
+
+            <span class="c1"># Add optional fields</span>
+            <span class="n">optional_fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;event&#39;</span><span class="p">,</span> <span class="s1">&#39;scheduledAt&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">optional_fields</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">row</span> <span class="ow">and</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">field</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="n">field</span> <span class="o">==</span> <span class="s1">&#39;geometry&#39;</span><span class="p">:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">event</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">field</span><span class="p">])</span>
+                        <span class="k">except</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+                            <span class="k">pass</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">event</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">field</span><span class="p">]</span>
+
+            <span class="c1"># Extract data values</span>
+            <span class="n">data_values</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;dataValue_&#39;</span><span class="p">):</span>
+                    <span class="n">data_element</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;dataValue_&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                        <span class="n">data_values</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                            <span class="s1">&#39;dataElement&#39;</span><span class="p">:</span> <span class="n">data_element</span><span class="p">,</span>
+                            <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                        <span class="p">})</span>
+
+            <span class="k">if</span> <span class="n">data_values</span><span class="p">:</span>
+                <span class="n">event</span><span class="p">[</span><span class="s1">&#39;dataValues&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_values</span>
+
+            <span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">events</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ImportSummaryConverter">
+<a class="viewcode-back" href="../../../api/io.html#pydhis2.io.to_pandas.ImportSummaryConverter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImportSummaryConverter</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Import summary converter&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ImportSummaryConverter.conflicts_to_dataframe">
+<a class="viewcode-back" href="../../../api/io.html#pydhis2.io.to_pandas.ImportSummaryConverter.conflicts_to_dataframe">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">conflicts_to_dataframe</span><span class="p">(</span><span class="n">conflicts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert list of conflicts to DataFrame&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">conflicts</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+                <span class="s1">&#39;uid&#39;</span><span class="p">,</span> <span class="s1">&#39;path&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;conflict_msg&#39;</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span>
+            <span class="p">])</span>
+
+        <span class="n">conflict_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">conflict</span> <span class="ow">in</span> <span class="n">conflicts</span><span class="p">:</span>
+            <span class="n">conflict_data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;uid&#39;</span><span class="p">:</span> <span class="n">conflict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="n">conflict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;uid&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)),</span>
+                <span class="s1">&#39;path&#39;</span><span class="p">:</span> <span class="n">conflict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;property&#39;</span><span class="p">,</span> <span class="n">conflict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)),</span>
+                <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">conflict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;conflict_msg&#39;</span><span class="p">:</span> <span class="n">conflict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="n">conflict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;errorCode&#39;</span><span class="p">,</span> <span class="s1">&#39;ERROR&#39;</span><span class="p">),</span>
+            <span class="p">})</span>
+
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">conflict_data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ImportSummaryConverter.summary_to_dataframe">
+<a class="viewcode-back" href="../../../api/io.html#pydhis2.io.to_pandas.ImportSummaryConverter.summary_to_dataframe">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">summary_to_dataframe</span><span class="p">(</span><span class="n">import_summary</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert import summary to DataFrame&quot;&quot;&quot;</span>
+        <span class="n">summary_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;metric&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;imported&#39;</span><span class="p">,</span> <span class="s1">&#39;updated&#39;</span><span class="p">,</span> <span class="s1">&#39;deleted&#39;</span><span class="p">,</span> <span class="s1">&#39;ignored&#39;</span><span class="p">,</span> <span class="s1">&#39;total&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="n">import_summary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;imported&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="n">import_summary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;updated&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="n">import_summary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;deleted&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="n">import_summary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ignored&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="n">import_summary</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;total&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">summary_data</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, pydhis2 contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
