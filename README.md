@@ -41,14 +41,29 @@
 </p>
 </div>
 
-`pydhis2` is a next-generation Python library for interacting with [DHIS2](https://www.dhis2.org/), the world's largest health information management system. It provides a clean, modern, and efficient API for data extraction, analysis, and management, with a strong emphasis on creating reproducible workflows—a critical need in scientific research and public health analysis, especially in Low and Middle-Income Country (LMIC) contexts.
+## 📘 About
+
+`pydhis2` is a next-generation Python library for interacting with [DHIS2](https://www.dhis2.org/), the world's largest health information management system. It provides a clean, modern, and efficient API for data extraction, analysis, and management, with a strong emphasis on creating **reproducible scientific workflows**—a critical need in public health research and data analysis, especially in Low and Middle-Income Country (LMIC) contexts.
+
+**Target Audience:**
+- Public health researchers and data scientists
+- DHIS2 implementers and administrators
+- Data analysts working with health information systems
+- Academic researchers requiring reproducible data pipelines
+
+**Scientific Use Cases:**
+- Epidemiological surveillance and analysis
+- Health system performance monitoring
+- Data quality assessments and validation
+- Routine health data analytics
+- Integration with statistical computing environments (R, Python, Julia)
 
 ---
 
 ## ✨ Why `pydhis2`?
 
 *   🚀 **Modern & Asynchronous:** Built with `asyncio` for high-performance, non-blocking I/O, making it ideal for large-scale data operations. A synchronous client is also provided for simplicity in smaller scripts.
-*    reproducible **Reproducible by Design:** From project templates to a powerful CLI, `pydhis2` is built to support standardized, shareable, and verifiable data analysis pipelines.
+*   🔬 **Reproducible by Design:** From project templates to a powerful CLI, `pydhis2` is built to support standardized, shareable, and verifiable data analysis pipelines—essential for scientific research.
 *   🐼 **Seamless DataFrame Integration:** Natively convert DHIS2 analytics data into Pandas DataFrames with a single method call (`.to_pandas()`), connecting you instantly to the PyData ecosystem.
 *   🔧 **Powerful Command Line Interface:** Automate common tasks like data pulling and configuration directly from your terminal.
 
@@ -57,11 +72,25 @@
 
 ### 1. Installation
 
+**Stable Release (Recommended)**
+
 Install `pydhis2` directly from PyPI:
 
 ```bash
 pip install pydhis2
 ```
+
+**Development Installation**
+
+For contributing or accessing the latest features:
+
+```bash
+git clone https://github.com/HzaCode/pyDHIS2.git
+cd pyDHIS2
+pip install -e ".[dev]"
+```
+
+See our [Contributing Guide](CONTRIBUTING.md) for more details on development setup.
 
 ### 2. Verify Your Installation
 
@@ -250,7 +279,7 @@ For a full list of commands, run `pydhis2 --help`.
 
 ## 🤝 Contributing
 
-Contributions are welcome and highly encouraged! `pydhis2` is a community-driven project, and we believe that collaboration is key to building robust and useful tools for the open-science community.
+Contributions are welcome and highly encouraged! `pydhis2` is a community-driven project.
 
 Please see our [**Contributing Guide**](CONTRIBUTING.md) for details on how to get started. Also, be sure to review our [**Code of Conduct**](CODE_OF_CONDUCT.md).
 
